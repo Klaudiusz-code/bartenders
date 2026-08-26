@@ -24,7 +24,7 @@ const slides = [
     cta: { label: "Zobacz realizacje", href: "/realizacje" },
   },
   {
-    img: "/hero.jpg",
+    img: "/hero1.jpg",
     eyebrow: "Flair & Wyjątkowy Kunszt",
     title: "Koktajle jak sztuka",
     description:
@@ -79,17 +79,17 @@ export default function Hero() {
           </div>
         ))}
 
-        {/* ZACIEMNIENIE Z GÓRY - chroni przed wchodzeniem tekstu pod Topbar */}
-        <div className="absolute inset-0 z-[1] bg-gradient-to-b from-black/80 via-black/40 to-transparent h-48" />
+        {/* ZACIEMNIENIE Z GÓRY - dynamiczne h-[15vh] / h-[22vh] blokuje wchodzenie pod menu na każdym laptopie */}
+        <div className="absolute inset-0 z-[1] bg-gradient-to-b from-black/90 via-black/50 to-transparent h-[15vh] md:h-[22vh]" />
         <div className="absolute inset-0 z-[1] bg-gradient-to-t from-black via-black/60 to-transparent" />
         <div className="absolute inset-0 z-[1] pointer-events-none bg-gradient-to-r from-black/70 via-black/20 to-transparent" />
 
-        {/* TEKST - zmniejszony bottom, żeby nie wchodził pod menu na laptopach */}
-        <div className="absolute left-0 right-0 z-10 bottom-[5%] md:bottom-[10%] px-5 sm:px-6 xl:px-10">
+        {/* TEKST - zoptymalizowane pozycjonowanie */}
+        <div className="absolute left-0 right-0 z-10 bottom-[6%] md:bottom-[12%] px-5 sm:px-6 xl:px-10">
           <div className="max-w-[1080px] xl:max-w-[1400px] mx-auto">
             <div className="max-w-2xl">
               <p
-                className="font-poppins text-[#0E7490] text-[0.6rem] md:text-[0.7rem] font-semibold tracking-[0.25em] uppercase mb-4 md:mb-6 transition-all duration-700 ease-out"
+                className="font-poppins text-[#0E7490] text-[0.6rem] md:text-[0.7rem] font-semibold tracking-[0.25em] uppercase mb-3 md:mb-5 transition-all duration-700 ease-out"
                 style={{
                   opacity: textVisible ? 1 : 0,
                   transform: textVisible ? "translateY(0)" : "translateY(15px)",
@@ -100,9 +100,10 @@ export default function Hero() {
               </p>
 
               <h1
-                className="text-white font-serif font-bold leading-[0.9] tracking-[-0.02em] mb-4 md:mb-6 transition-all duration-700 delay-100 ease-out"
+                className="text-white font-serif font-bold leading-[0.9] tracking-[-0.02em] mb-3 md:mb-5 transition-all duration-700 delay-100 ease-out"
                 style={{
-                  fontSize: "clamp(2.2rem, 6vw, 6rem)",
+                  // ZMNIEJSZONA CZCIONKA: 4.5vw zamiast 6vw, idealnie na małe laptopy
+                  fontSize: "clamp(1.8rem, 4.5vw, 5.5rem)",
                   opacity: textVisible ? 1 : 0,
                   transform: textVisible ? "translateY(0)" : "translateY(20px)",
                 }}
@@ -111,7 +112,7 @@ export default function Hero() {
               </h1>
 
               <p
-                className="font-poppins text-white/40 text-xs md:text-[0.95rem] leading-[1.8] max-w-md md:max-w-lg mb-6 md:mb-10 transition-all duration-700 delay-200 ease-out"
+                className="font-poppins text-white/40 text-xs md:text-[0.95rem] leading-[1.8] max-w-md md:max-w-lg mb-4 md:mb-8 transition-all duration-700 delay-200 ease-out"
                 style={{
                   opacity: textVisible ? 1 : 0,
                   transform: textVisible ? "translateY(0)" : "translateY(20px)",
@@ -147,15 +148,15 @@ export default function Hero() {
               </div>
             </div>
 
-            {/* DOLNY PASEK UI */}
-            <div className="mt-8 md:mt-14">
-              <div className="inline-flex flex-row items-center gap-6 md:gap-10 bg-white/[0.03] backdrop-blur-md border border-white/[0.06] rounded-xl md:rounded-2xl px-5 py-3.5 md:px-8 md:py-5">
+            {/* DOLNY PASEK UI - zmniejszone marginesy i paddingi, żeby nie rozpychał sekcji */}
+            <div className="mt-6 md:mt-10">
+              <div className="inline-flex flex-row items-center gap-5 md:gap-8 bg-white/[0.03] backdrop-blur-md border border-white/[0.06] rounded-xl md:rounded-2xl px-4 py-3 md:px-6 md:py-4">
                 <div className="flex items-center gap-3">
                   <div className="hidden sm:flex -space-x-2">
                     {[11, 23, 37, 49].map((seed) => (
                       <div
                         key={seed}
-                        className="w-7 h-7 md:w-9 md:h-9 rounded-full border-2 border-black/50 overflow-hidden bg-white/10"
+                        className="w-7 h-7 md:w-8 md:h-8 rounded-full border-2 border-black/50 overflow-hidden bg-white/10"
                       >
                         <img
                           src={`https://picsum.photos/seed/face-${seed}/80/80.jpg`}
