@@ -174,8 +174,9 @@ export default function Navbar() {
         </div>
       </header>
 
+      {/* MENU MOBILNE - NAPRAWIONE */}
       <div
-        className={`lg:hidden fixed bottom-0 left-0 right-0 h-1/2 bg-black z-[45] border-t border-white/10 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        className={`lg:hidden fixed bottom-0 left-0 right-0 h-[85vh] bg-black z-[45] border-t border-white/10 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-y-auto ${
           open ? "translate-y-0" : "translate-y-full"
         }`}
       >
@@ -222,7 +223,7 @@ export default function Navbar() {
           </nav>
 
           <div
-            className="flex flex-col items-center gap-6"
+            className="flex flex-col items-center gap-6 pb-4"
             style={{
               transitionDelay: open ? "350ms" : "0ms",
               opacity: open ? 1 : 0,

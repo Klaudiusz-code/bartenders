@@ -8,7 +8,7 @@ import { FaStar } from "react-icons/fa";
 
 const slides = [
   {
-    img: "https://images.unsplash.com/photo-1551538827-9c037cb4f32a?q=80&w=2670&auto=format&fit=crop",
+    img: "/hero1.jpg",
     eyebrow: "Premium Mobile Bar",
     title: "Brothers Bartenders",
     description:
@@ -24,7 +24,7 @@ const slides = [
     cta: { label: "Zobacz realizacje", href: "/realizacje" },
   },
   {
-    img: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?q=80&w=2670&auto=format&fit=crop",
+    img: "/hero.jpg",
     eyebrow: "Flair & Wyjątkowy Kunszt",
     title: "Koktajle jak sztuka",
     description:
@@ -79,11 +79,13 @@ export default function Hero() {
           </div>
         ))}
 
-        <div className="absolute inset-0 z-[1] bg-gradient-to-t from-black via-black/50 to-transparent" />
+        {/* ZACIEMNIENIE Z GÓRY - chroni przed wchodzeniem tekstu pod Topbar */}
+        <div className="absolute inset-0 z-[1] bg-gradient-to-b from-black/80 via-black/40 to-transparent h-48" />
+        <div className="absolute inset-0 z-[1] bg-gradient-to-t from-black via-black/60 to-transparent" />
         <div className="absolute inset-0 z-[1] pointer-events-none bg-gradient-to-r from-black/70 via-black/20 to-transparent" />
 
-        {/* NAPRAWIONY KONTENER TEKSTU - odepchnięty od dołu i góry */}
-        <div className="absolute left-0 right-0 z-10 bottom-[8%] md:bottom-[15%] px-5 sm:px-6 xl:px-10">
+        {/* TEKST - zmniejszony bottom, żeby nie wchodził pod menu na laptopach */}
+        <div className="absolute left-0 right-0 z-10 bottom-[5%] md:bottom-[10%] px-5 sm:px-6 xl:px-10">
           <div className="max-w-[1080px] xl:max-w-[1400px] mx-auto">
             <div className="max-w-2xl">
               <p
