@@ -8,15 +8,15 @@ import { FaStar } from "react-icons/fa";
 
 const slides = [
   {
-    img: "/hero1.jpg",
+    img: "https://images.unsplash.com/photo-1551538827-9c037cb4f32a?q=80&w=2670&auto=format&fit=crop",
     eyebrow: "Premium Mobile Bar",
     title: "Brothers Bartenders",
     description:
       "Elegancja, smak i show. Organizujemy mobilne bary koktajlowe, które definiują styl każdego wielkiego wydarzenia.",
-    cta: { label: "Sprawdź ofertę", href: "/wesela" },
+    cta: { label: "Sprawdź ofertę", href: "/oferta" },
   },
   {
-    img: "/hero1.jpg",
+    img: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=2670&auto=format&fit=crop",
     eyebrow: "Wesela & Imprezy Firmowe",
     title: "Smak, który łączy ludzi",
     description:
@@ -24,7 +24,7 @@ const slides = [
     cta: { label: "Zobacz realizacje", href: "/realizacje" },
   },
   {
-    img: "/hero1.jpg",
+    img: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?q=80&w=2670&auto=format&fit=crop",
     eyebrow: "Flair & Wyjątkowy Kunszt",
     title: "Koktajle jak sztuka",
     description:
@@ -72,8 +72,9 @@ export default function Hero() {
               src={slide.img}
               alt="Brothers Bartenders"
               fill
-              className="object-cover"
+              className="object-cover object-center"
               priority={index === 0}
+              sizes="100vw"
             />
           </div>
         ))}
@@ -81,8 +82,9 @@ export default function Hero() {
         <div className="absolute inset-0 z-[1] bg-gradient-to-t from-black via-black/50 to-transparent" />
         <div className="absolute inset-0 z-[1] pointer-events-none bg-gradient-to-r from-black/70 via-black/20 to-transparent" />
 
-        <div className="absolute bottom-0 left-0 right-0 z-10 pb-8 md:pb-12">
-          <div className="max-w-[1080px] xl:max-w-[1400px] mx-auto px-6 xl:px-10">
+        {/* NAPRAWIONY KONTENER TEKSTU - odepchnięty od dołu i góry */}
+        <div className="absolute left-0 right-0 z-10 bottom-[8%] md:bottom-[15%] px-5 sm:px-6 xl:px-10">
+          <div className="max-w-[1080px] xl:max-w-[1400px] mx-auto">
             <div className="max-w-2xl">
               <p
                 className="font-poppins text-[#0E7490] text-[0.6rem] md:text-[0.7rem] font-semibold tracking-[0.25em] uppercase mb-4 md:mb-6 transition-all duration-700 ease-out"
@@ -143,8 +145,9 @@ export default function Hero() {
               </div>
             </div>
 
-            <div className="mt-6 md:mt-12">
-              <div className="flex flex-row items-center justify-between bg-white/[0.03] backdrop-blur-md border border-white/[0.06] rounded-xl md:rounded-2xl px-4 py-3 md:px-8 md:py-5">
+            {/* DOLNY PASEK UI */}
+            <div className="mt-8 md:mt-14">
+              <div className="inline-flex flex-row items-center gap-6 md:gap-10 bg-white/[0.03] backdrop-blur-md border border-white/[0.06] rounded-xl md:rounded-2xl px-5 py-3.5 md:px-8 md:py-5">
                 <div className="flex items-center gap-3">
                   <div className="hidden sm:flex -space-x-2">
                     {[11, 23, 37, 49].map((seed) => (
@@ -177,7 +180,7 @@ export default function Hero() {
 
                 <div className="hidden sm:block w-px h-6 bg-white/10" />
 
-                <div className="flex items-center gap-2.5 md:gap-4">
+                <div className="flex items-center gap-3 md:gap-5">
                   {slides.map((_, index) => (
                     <button
                       key={index}
