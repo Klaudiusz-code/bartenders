@@ -1,132 +1,290 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import {
+  FaHeart,
+  FaBuilding,
+  FaHome,
+  FaMagic,
+  FaGraduationCap,
+  FaClipboardList,
+  FaGlassMartiniAlt,
+  FaCheck,
+} from "react-icons/fa";
+import { MdArrowOutward } from "react-icons/md";
+import { BiChevronDown } from "react-icons/bi";
+import Topbar from "@/components/TopBar";
 
 const services = [
   {
-    icon: (
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#D97706" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
-      </svg>
-    ),
-    title: "Wesela i przyjęcia okolicznościowe",
-    desc: "Kompleksowa obsługa barmańska najważniejszego dnia w Waszym życiu. Autorskie menu dopasowane do stylu wesela, otwarty bar przez całą noc i show, który zapadnie gościom w pamięć.",
-    tags: ["Autorskie menu", "Open bar", "Flair show"],
+    icon: FaHeart,
+    title: "Wesela i przyjęcia",
+    desc: "Kompleksowa obsługa barmańska najważniejszego dnia. Autorskie menu dopasowane do stylu wesela, otwarty bar i show, który zapadnie w pamięć.",
+    tags: ["Autorskie menu", "Open bar", "Flair show", "Elegancki dress code"],
   },
   {
-    icon: (
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#D97706" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
-        <path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16" />
-      </svg>
-    ),
+    icon: FaBuilding,
     title: "Eventy firmowe",
-    desc: "Imprezy integracyjne, bankiety, launchy produktów. Tworzymy barmańskie strefy, które stają się punktem centralnym każdego wydarzenia korporacyjnego.",
-    tags: ["Strefa koktajlowa", "Branding", "Obsługa VIP"],
+    desc: "Imprezy integracyjne, bankiety, launchy produktów. Tworzymy barmańskie strefy, które stają się punktem centralnym wydarzenia.",
+    tags: ["Strefa koktajlowa", "Branding", "Obsługa VIP", "Pokazy"],
   },
   {
-    icon: (
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#D97706" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
-        <polyline points="9 22 9 12 15 12 15 22" />
-      </svg>
-    ),
+    icon: FaHome,
     title: "Imprezy prywatne",
-    desc: "Urodziny, rocznice, domówki na najwyższym poziomie. Wnosimy profesjonalny bar do Twojego salonu, ogrodu lub wynajętej przestrzeni.",
+    desc: "Urodziny, rocznice, domówki na najwyższym poziomie. Wnosimy profesjonalny bar do Twojego salonu, ogrodu lub na dach.",
     tags: ["Dojazd na miejsce", "Elastyczne menu", "Kameralny klimat"],
   },
   {
-    icon: (
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#D97706" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="10" />
-        <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3" />
-        <line x1="12" y1="17" x2="12.01" y2="17" />
-      </svg>
-    ),
-    title: "Masterclassy barmanskie",
-    desc: "Interaktywne warsztaty, podczas których uczestnicy uczą się mieszać, shakować i serwować koktajle jak profesjonaliści. Idealne na team building.",
-    tags: ["Warsztaty", "Materiały", "Certyfikat"],
+    icon: FaMagic,
+    title: "Pokazy barmańskie (Flair)",
+    desc: "Latające butelki, ogień i choreografia z muzyką. Pełnoprawny show, który zostawia wrażenie na każdym widzu.",
+    tags: ["Choreografia", "Interakcja", "15-45 minut"],
   },
   {
-    icon: (
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#D97706" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
-        <polyline points="14 2 14 8 20 8" />
-        <line x1="16" y1="13" x2="8" y2="13" />
-        <line x1="16" y1="17" x2="8" y2="17" />
-        <polyline points="10 9 9 9 8 9" />
-      </svg>
-    ),
+    icon: FaGraduationCap,
+    title: "Masterclassy barmanskie",
+    desc: "Interaktywne warsztaty, podczas których uczestnicy uczą się mieszać, shakować i serwować koktajle jak profesjonaliści.",
+    tags: ["Warsztaty praktyczne", "Materiały", "Certyfikat"],
+  },
+  {
+    icon: FaClipboardList,
     title: "Konsultacje drink menu",
-    desc: "Projektujemy karty koktajlowe dla barów, restauracji i hoteli. Od koncepcji smakowej po prezentację wizualną i szkolenie zespołu.",
-    tags: ["Projekt menu", "Szkolenia", "Wizerunek"],
+    desc: "Projektujemy karty koktajlowe dla barów, restauracji i hoteli. Od koncepcji smakowej po szkolenia zespołu.",
+    tags: ["Projekt menu", "Szkolenia", "Cost control"],
+  },
+];
+
+const sampleMenu = [
+  {
+    name: "Pornstar Martini",
+    tag: "Klasyk",
+    ingredients: "Passion fruit, wódka vanilla, prosecco, laska wanilii",
+    img: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?q=80&w=800&auto=format&fit=crop",
+  },
+  {
+    name: "Smoked Old Fashioned",
+    tag: "Dym & Ogień",
+    ingredients: "Bourbon, angostura, syrop cukrowy, dym z drewna wiśniowego",
+    img: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=800&auto=format&fit=crop",
+  },
+  {
+    name: "Spicy Margarita",
+    tag: "Pikantny",
+    ingredients: "Tequila, świeży jalapeño, limonka, agawa, sól na brzegu",
+    img: "https://images.unsplash.com/photo-1556855810-ac404aa91e85?q=80&w=800&auto=format&fit=crop",
+  },
+  {
+    name: "Espresso Martini",
+    tag: "Energia",
+    ingredients: "Wódka, świeżo zaparowane espresso, likier kawowy",
+    img: "https://images.unsplash.com/photo-1556855810-ac404aa91e85?q=80&w=800&auto=format&fit=crop",
+  },
+  {
+    name: "Blue Lagoon",
+    tag: "Orzeźwiający",
+    ingredients: "Wódka, Blue Curaçao, cytryna, sprite, lód kruchy",
+    img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=80&w=800&auto=format&fit=crop",
+  },
+  {
+    name: "Aperol Spritz",
+    tag: "Włoski klasyk",
+    ingredients: "Aperol, prosecco, soda, duża pomarańcza, lód",
+    img: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=800&auto=format&fit=crop",
+  },
+];
+
+const faqs = [
+  {
+    q: "Ile kosztuje obsługa barmańska na wesele/event?",
+    a: "Nie tworzymy sztywnych cenników. Każda wycena jest indywidualna i zależy od liczby gości, czasu trwania imprezy, wybranego menu oraz lokalizacji. Skontaktuj się z nami, a przygotujemy darmową wycenę.",
+  },
+  {
+    q: "Ile drinków powinniśmy zaplanować na osobę?",
+    a: "Zazwyczaj liczy się około 4-6 drinków na osobę w ciągu nocy, w zależności od tego, czy są to drinki mocne, czy głównie orzeźwiające. Pomagamy dobrać idealne proporcje podczas konsultacji.",
+  },
+  {
+    q: "Czy wjeżdżacie na imprezę w strojach galowych?",
+    a: "Tak. Nasz standardowy dress code to eleganckie, czarne koszule, kamizelki i akcesoria dopasowane do stylu i kolorystyki Waszego wesela lub eventy.",
+  },
+  {
+    q: "Czy obsługujecie imprezy poza Warszawą?",
+    a: "Tak, jeździmy w całej Polsce. Koszty dojazdu i noclegu (jeśli jest wymagany) są ustalane indywidualnie w zależności od lokalizacji.",
+  },
+  {
+    q: "Czy mogę zaproponować własne smaki do menu?",
+    a: "Oczywiście! Uwielbiamy wyzwania. Jeśli macie ulubione smaki, wspomnienia z podróży związane z konkretnym drinkiem – chętnie włączymy je do autorskiego menu.",
+  },
+  {
+    q: "Ile czasu trwa typowy pokaz barmański (flair)?",
+    a: "Standardowy pokaz trwa od 15 do 45 minut, w zależności od wybranego pakietu i charakteru imprezy. Najczęściej robimy show na otwarcie imprezy, a potem płynnie przechodzimy w obsługę gości.",
+  },
+  {
+    q: "Czy wymagacie specjalnego zabezpieczenia podłogi?",
+    a: "W przypadku standardowej obsługi nie. Jednak przy bardzo skomplikowanych technik z użyciem ognia, prosimy o wyznaczenie odpowiedniej strefy i poinformowanie obsługi lokalu.",
   },
 ];
 
 export default function Oferta() {
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+
+  useEffect(() => {
+    const ob = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target
+              .querySelectorAll(".anim, .anim-left, .anim-right, .anim-scale")
+              .forEach((el) => el.classList.add("visible"));
+            ob.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.1 },
+    );
+    document.querySelectorAll("[data-observe]").forEach((el) => ob.observe(el));
+    return () => ob.disconnect();
+  }, []);
+
   return (
     <>
-      {/* === PAGE HERO === */}
-      <section className="relative pt-32 pb-20 px-6 overflow-hidden">
-        <div className="orb orb-gold w-[400px] h-[400px] -top-40 -left-40 opacity-40" />
+      <Topbar />
+      <Navbar />
 
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="max-w-3xl">
-            <span className="section-label anim-fade-up">Oferta</span>
-            <h1 className="font-[var(--font-playfair)] text-4xl md:text-6xl font-bold leading-[1.05] anim-fade-up delay-100">
-              Menu naszych{" "}
-              <span className="text-[#D97706]">usług</span>
-            </h1>
-            <p className="section-desc mt-6 anim-fade-up delay-200">
-              Każda usługa jest dopasowana do Twoich potrzeb. Nie mamy
-              sztywnych pakietów — mamy elastyczne rozwiązania, które
-              działają.
+      <section className="relative pt-[72px] md:pt-[112px] bg-black">
+        <div className="relative h-[55vh] md:h-[65vh] min-h-[450px]">
+          <Image
+            src="https://images.unsplash.com/photo-1551538827-9c037cb4f32a?q=80&w=2670&auto=format&fit=crop"
+            alt="Barman przygotowujący koktajl"
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
+          <div className="absolute bottom-0 left-0 right-0 pb-12 md:pb-20">
+            <div className="max-w-[1080px] xl:max-w-[1400px] mx-auto px-5 sm:px-6 xl:px-10">
+              <span className="font-poppins inline-flex items-center gap-2 text-[0.65rem] font-semibold tracking-[0.2em] uppercase text-[#0E7490] mb-4">
+                <span className="w-5 h-px bg-[#0E7490]/40" /> Nasze usługi
+              </span>
+              <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[0.95]">
+                Menu naszych <span className="text-[#0E7490]">usług</span>
+              </h1>
+              <p className="font-poppins text-white/50 text-sm sm:text-[0.95rem] leading-[1.85] mt-6 max-w-xl">
+                Każda usługa jest dopasowana do Twoich potrzeb. Nie mamy
+                sztywnych pakietów — mamy elastyczne rozwiązania, które
+                działają.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        data-observe
+        className="py-20 md:py-28 lg:py-32 px-5 sm:px-6 xl:px-10 bg-white"
+      >
+        <div className="max-w-[1080px] xl:max-w-[1400px] mx-auto space-y-5 md:space-y-6">
+          {services.map((s, i) => (
+            <div
+              key={s.title}
+              className={`anim d${Math.min(i + 1, 4)} bg-white rounded-2xl border border-gray-100 p-6 sm:p-8 lg:p-10 flex flex-col lg:flex-row gap-6 lg:gap-8 items-start hover:border-[#0E7490]/20 hover:shadow-xl hover:shadow-[#0E7490]/10 hover:-translate-y-1 transition-all duration-300`}
+            >
+              <div className="w-14 h-14 lg:w-16 lg:h-16 rounded-2xl bg-[#0E7490]/10 flex items-center justify-center shrink-0">
+                <s.icon size={26} className="text-[#0E7490]" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-serif text-xl sm:text-2xl lg:text-[1.7rem] font-bold text-black mb-3 tracking-tight">
+                  {s.title}
+                </h3>
+                <p className="font-poppins text-gray-400 text-sm leading-[1.85] mb-5 max-w-2xl">
+                  {s.desc}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {s.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="font-poppins px-3 py-1 text-[0.7rem] font-semibold text-[#0E7490] bg-[#0E7490]/10 rounded-full border border-[#0E7490]/20"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div className="flex-shrink-0 mt-auto lg:mt-0 w-full lg:w-auto">
+                <Link
+                  href="/kontakt"
+                  className="group w-full lg:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-black text-white font-poppins text-[0.7rem] font-semibold tracking-[0.1em] uppercase rounded-full hover:bg-[#0E7490] transition-colors duration-300"
+                >
+                  Zapytaj{" "}
+                  <MdArrowOutward
+                    size={14}
+                    className="transition-transform group-hover:rotate-45"
+                  />
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section
+        data-observe
+        className="py-20 md:py-28 lg:py-32 px-5 sm:px-6 xl:px-10 bg-black relative overflow-hidden"
+      >
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(circle at 20% 50%, rgba(14,116,144,0.15) 0%, transparent 50%)",
+          }}
+        />
+        <div className="max-w-[1080px] xl:max-w-[1400px] mx-auto relative z-10">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-12 md:mb-16 gap-6">
+            <div>
+              <span className="anim inline-flex items-center gap-2 font-poppins text-[0.65rem] font-semibold tracking-[0.2em] uppercase text-[#0E7490] mb-4">
+                <span className="w-5 h-px bg-[#0E7490]/40" /> Inspiracje
+              </span>
+              <h2 className="anim d1 font-serif text-3xl sm:text-4xl md:text-[2.8rem] font-bold leading-[1.05] text-white tracking-tight">
+                Przykładowe <span className="text-[#0E7490]">menu</span>
+              </h2>
+            </div>
+            <p className="anim d2 font-poppins text-white/40 text-sm max-w-md leading-relaxed">
+              To tylko wierzchołek góry lodowej. Każde menu tworzymy od zera,
+              dopasowując składniki do Waszych preferencji.
             </p>
           </div>
-        </div>
-      </section>
 
-      {/* === LISTA USŁUG === */}
-      <section className="relative pb-28 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="space-y-6">
-            {services.map((service, i) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+            {sampleMenu.map((d, i) => (
               <div
-                key={service.title}
-                className="glass-card rounded-xl p-8 md:p-10 flex flex-col md:flex-row gap-8 items-start page-enter"
-                style={{ animationDelay: `${0.1 + i * 0.1}s` }}
+                key={d.name}
+                className={`anim-scale d${Math.min(i + 1, 4)} group cursor-pointer rounded-2xl overflow-hidden relative bg-gray-900 border border-white/5 hover:border-[#0E7490]/30 transition-all duration-500`}
               >
-                {/* Ikona */}
-                <div className="w-16 h-16 rounded-xl bg-[#D97706]/10 flex items-center justify-center flex-shrink-0">
-                  {service.icon}
-                </div>
-
-                {/* Treść */}
-                <div className="flex-1">
-                  <h3 className="font-[var(--font-playfair)] text-xl md:text-2xl font-bold mb-3">
-                    {service.title}
-                  </h3>
-                  <p className="text-[#A8A29E] text-sm leading-relaxed mb-5 max-w-2xl">
-                    {service.desc}
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {service.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-3 py-1 text-xs font-medium text-[#D97706] bg-[#D97706]/10 rounded-full border border-[#D97706]/20"
-                      >
-                        {tag}
-                      </span>
-                    ))}
+                <div className="relative h-56 sm:h-64 overflow-hidden">
+                  <Image
+                    src={d.img}
+                    alt={d.name}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-transparent" />
+                  <div className="absolute top-4 right-4">
+                    <span className="font-poppins text-[0.6rem] font-bold tracking-wider uppercase bg-black/60 backdrop-blur-sm text-[#0E7490] px-3 py-1 rounded-full border border-[#0E7490]/20">
+                      {d.tag}
+                    </span>
                   </div>
                 </div>
-
-                {/* CTA */}
-                <div className="flex-shrink-0">
-                  <Link
-                    href="/kontakt"
-                    className="btn-outline text-sm whitespace-nowrap"
-                  >
-                    Zapytaj o wycenę
-                  </Link>
+                <div className="p-6 relative">
+                  <h3 className="font-serif text-xl font-bold text-white mb-2 transition-colors group-hover:text-[#0E7490]">
+                    {d.name}
+                  </h3>
+                  <p className="font-poppins text-white/40 text-xs leading-relaxed">
+                    {d.ingredients}
+                  </p>
                 </div>
               </div>
             ))}
@@ -134,53 +292,155 @@ export default function Oferta() {
         </div>
       </section>
 
-      {/* === JAK PRACUJEMY === */}
-      <section className="relative py-20 px-6 bg-[#1C1917]/50">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-16 page-enter">
-            <span className="section-label">Proces</span>
-            <h2 className="section-title">Jak pracujemy</h2>
+      <section
+        data-observe
+        className="py-20 md:py-28 lg:py-32 px-5 sm:px-6 xl:px-10 bg-gray-50/50"
+      >
+        <div className="max-w-[1080px] xl:max-w-[1400px] mx-auto">
+          <div className="text-center mb-12 md:mb-16">
+            <span className="anim inline-flex items-center gap-2 font-poppins text-[0.65rem] font-semibold tracking-[0.2em] uppercase text-[#0E7490]/80 mb-4">
+              <span className="w-5 h-px bg-[#0E7490]/40" /> Standard
+            </span>
+            <h2 className="anim d1 font-serif text-3xl sm:text-4xl md:text-[2.8rem] font-bold leading-[1.05] text-black tracking-tight">
+              Co zawsze <span className="text-[#0E7490]">zawiera usługa</span>
+            </h2>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
             {[
-              { step: "01", title: "Konsultacja", desc: "Poznajemy Twoją wizję, gości i oczekiwania." },
-              { step: "02", title: "Projekt", desc: "Tworzymy menu i koncepcję barmańską." },
-              { step: "03", title: "Przygotowanie", desc: "Zaopatrujemy się w składniki i sprzęt." },
-              { step: "04", title: "Realizacja", desc: "Wjeżdżamy, stawiamy bar i robimy show." },
+              {
+                icon: FaGlassMartiniAlt,
+                title: "Autorskie koktajle",
+                desc: "Menu dopasowane do Waszych preferencji i tematu imprezy.",
+              },
+              {
+                icon: FaMagic,
+                title: "Dekoracje drinków",
+                desc: "Kwiaty, owoce, dym, lód — każdy koktajl to małe dzieło sztuki.",
+              },
+              {
+                icon: FaHeart,
+                title: "Profesjonalna obsługa",
+                desc: "Uśmiechnięta ekipa, która dba o gości i rozkręca imprezę.",
+              },
+              {
+                icon: FaGlassMartiniAlt,
+                title: "Szkło i wyposażenie",
+                desc: "Przywozimy wszystko ze sobą — szkło, sprzęt, składniki.",
+              },
+              {
+                icon: FaClipboardList,
+                title: "Konsultacja menu",
+                desc: "Spotykamy się wcześniej, degustujemy, planujemy i ustawiamy detale.",
+              },
+              {
+                icon: FaBuilding,
+                title: "Elastyczność logistyczna",
+                desc: "Działamy w domach, ogrodach, na salach i pod namiotami.",
+              },
             ].map((item, i) => (
-              <div key={item.step} className="text-center page-enter" style={{ animationDelay: `${0.1 + i * 0.15}s` }}>
-                <div className="font-[var(--font-playfair)] text-5xl font-bold text-[#44403C] mb-4">
-                  {item.step}
+              <div
+                key={item.title}
+                className={`anim-scale d${Math.min(i + 1, 4)} bg-white rounded-2xl p-7 sm:p-8 border border-gray-100 group hover:border-[#0E7490]/20 hover:shadow-xl hover:shadow-[#0E7490]/10 hover:-translate-y-1 transition-all duration-300 relative overflow-hidden`}
+              >
+                <div className="absolute top-0 left-8 right-8 h-[2px] bg-[#0E7490] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left rounded-full" />
+                <div className="w-12 h-12 rounded-xl bg-[#0E7490]/10 flex items-center justify-center mb-5 group-hover:bg-[#0E7490] transition-colors duration-300">
+                  <item.icon
+                    size={20}
+                    className="text-[#0E7490] group-hover:text-white transition-colors duration-300"
+                  />
                 </div>
-                <h3 className="font-semibold text-[#FAFAF9] mb-2">{item.title}</h3>
-                <p className="text-[#A8A29E] text-sm leading-relaxed">{item.desc}</p>
+                <h3 className="font-serif text-lg sm:text-xl font-bold text-black mb-2 leading-tight relative z-10">
+                  {item.title}
+                </h3>
+                <p className="font-poppins text-gray-400 text-sm leading-[1.8] relative z-10">
+                  {item.desc}
+                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* === CTA FINAL === */}
-      <section className="relative py-24 px-6 text-center">
-        <div className="orb orb-copper w-[400px] h-[400px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-30" />
-
-        <div className="relative z-10 page-enter">
-          <h2 className="font-[var(--font-playfair)] text-3xl md:text-5xl font-bold mb-6">
-            Gotowy na <span className="text-[#D97706]">niezapomniany</span> wieczór?
+      <section
+        data-observe
+        className="py-20 md:py-28 lg:py-32 px-5 sm:px-6 xl:px-10 bg-black relative overflow-hidden"
+      >
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(circle at 50% 50%, rgba(14,116,144,0.1) 0%, transparent 50%)",
+          }}
+        />
+        <div className="max-w-[800px] mx-auto text-center relative z-10">
+          <h2 className="anim font-serif text-3xl sm:text-4xl md:text-[2.8rem] font-bold text-white mb-6 tracking-tight">
+            Gotowy na <span className="text-[#0E7490]">niezapomniany</span>{" "}
+            wieczór?
           </h2>
-          <p className="section-desc mx-auto mb-10">
-            Porozmawiajmy o Twoim wydarzeniu. Pierwsza konsultacja
-            jest zawsze bezpłatna.
+          <p className="anim d1 font-poppins text-white/50 text-sm sm:text-[0.95rem] leading-[1.85] mb-10 max-w-lg mx-auto">
+            Porozmawiajmy o Twoim wydarzeniu. Pierwsza konsultacja i wstępna
+            koncepcja menu są zawsze bezpłatne.
           </p>
-          <Link href="/kontakt" className="btn-gold">
+          <Link
+            href="/kontakt"
+            className="anim d2 group inline-flex items-center gap-3 px-10 py-4 bg-gradient-to-r from-[#0E7490] to-[#0B9AAA] text-white font-poppins text-[0.7rem] font-semibold tracking-[0.1em] uppercase rounded-full hover:shadow-2xl hover:shadow-[#0E7490]/30 hover:-translate-y-1 transition-all duration-300"
+          >
             <span>Umów się na rozmowę</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
+            <MdArrowOutward
+              size={16}
+              className="transition-transform group-hover:rotate-45"
+            />
           </Link>
         </div>
       </section>
+
+      <section
+        data-observe
+        className="py-20 md:py-28 lg:py-32 px-5 sm:px-6 xl:px-10 bg-gray-50"
+      >
+        <div className="max-w-[800px] mx-auto">
+          <div className="text-center mb-12">
+            <span className="anim inline-flex items-center gap-2 font-poppins text-[0.65rem] font-semibold tracking-[0.2em] uppercase text-[#0E7490]/80 mb-4">
+              <span className="w-5 h-px bg-[#0E7490]/40" /> FAQ
+            </span>
+            <h2 className="anim d1 font-serif text-3xl sm:text-4xl md:text-[2.8rem] font-bold text-black tracking-tight">
+              Często zadawane <span className="text-[#0E7490]">pytania</span>
+            </h2>
+          </div>
+          <div className="space-y-3 md:space-y-4">
+            {faqs.map((f, i) => (
+              <div
+                key={i}
+                className={`anim d${Math.min(i + 1, 4)} bg-white rounded-xl border border-gray-100 overflow-hidden transition-shadow duration-300 hover:shadow-md`}
+              >
+                <button
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  className="w-full flex justify-between items-center p-5 sm:p-6 text-left group"
+                >
+                  <span className="font-poppins text-black text-sm font-medium pr-4 group-hover:text-[#0E7490] transition-colors">
+                    {f.q}
+                  </span>
+                  <BiChevronDown
+                    size={22}
+                    className={`text-[#0E7490] transition-transform duration-300 shrink-0 ${openFaq === i ? "rotate-180" : ""}`}
+                  />
+                </button>
+                <div
+                  className={`grid transition-all duration-300 ease-in-out ${openFaq === i ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
+                >
+                  <div className="overflow-hidden">
+                    <p className="font-poppins text-gray-500 text-sm leading-relaxed pb-6 px-5 sm:px-6">
+                      {f.a}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <Footer />
     </>
   );
 }

@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 
 const images = [
-  { src: "https://picsum.photos/seed/colorful-cocktail-1/600/800.jpg", tall: true },
+  { src: "/gallery1.jpg", tall: true },
   { src: "https://picsum.photos/seed/cocktail-making-bar/600/400.jpg", tall: false },
   { src: "https://picsum.photos/seed/wedding-drinks-table/600/400.jpg", tall: false },
   { src: "https://picsum.photos/seed/bartender-flair-trick/600/400.jpg", tall: false },

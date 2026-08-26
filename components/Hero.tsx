@@ -1,62 +1,228 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
+import { MdArrowOutward } from "react-icons/md";
+import { FaStar } from "react-icons/fa";
+
+const slides = [
+  {
+    img: "/hero1.jpg",
+    eyebrow: "Premium Mobile Bar",
+    title: "Brothers Bartenders",
+    description:
+      "Elegancja, smak i show. Organizujemy mobilne bary koktajlowe, które definiują styl każdego wielkiego wydarzenia.",
+    cta: { label: "Sprawdź ofertę", href: "/wesela" },
+  },
+  {
+    img: "/hero1.jpg",
+    eyebrow: "Wesela & Imprezy Firmowe",
+    title: "Smak, który łączy ludzi",
+    description:
+      "Barmańskie doświadczenie na najwyższym poziomie. Autorskie menu i show, które na długo zapada w pamięć.",
+    cta: { label: "Zobacz realizacje", href: "/realizacje" },
+  },
+  {
+    img: "/hero1.jpg",
+    eyebrow: "Flair & Wyjątkowy Kunszt",
+    title: "Koktajle jak sztuka",
+    description:
+      "Ogień, dym i techniczna perfekcja. Drinki, które zachwycają wizualnie i wybuchają smakiem.",
+    cta: { label: "Poznaj nas", href: "/o-nas" },
+  },
+];
 
 export default function Hero() {
-  const ref = useRef<HTMLElement>(null);
+  const [current, setCurrent] = useState(0);
+  const [textVisible, setTextVisible] = useState(true);
 
   useEffect(() => {
-    const t = setTimeout(() => ref.current?.classList.add("hero-loaded"), 100);
-    return () => clearTimeout(t);
-  }, []);
+    const timer = setInterval(() => {
+      setTextVisible(false);
+      setTimeout(() => {
+        setCurrent((prev) => (prev + 1) % slides.length);
+        setTextVisible(true);
+      }, 500);
+    }, 7000);
+    return () => clearInterval(timer);
+  }, [current]);
+
+  const handleSlideChange = (index: number) => {
+    setTextVisible(false);
+    setTimeout(() => {
+      setCurrent(index);
+      setTextVisible(true);
+    }, 500);
+  };
 
   return (
-    <section ref={ref} id="start" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      <div className="absolute inset-0">
-        <img src="https://picsum.photos/seed/cocktail-bar-dark-luxury/1920/1080.jpg" alt="" className="w-full h-full object-cover opacity-[0.12] scale-105" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/60 via-[#050505]/80 to-[#050505]" />
-      </div>
+    <>
+      <section className="relative h-screen w-full overflow-hidden bg-black">
+        {slides.map((slide, index) => (
+          <div
+            key={index}
+            className={`absolute inset-0 transition-opacity duration-[1200ms] ease-in-out ${
+              index === current
+                ? "opacity-100 z-0 hero-slide-active"
+                : "opacity-0 z-[-1]"
+            }`}
+          >
+            <Image
+              src={slide.img}
+              alt="Brothers Bartenders"
+              fill
+              className="object-cover"
+              priority={index === 0}
+            />
+          </div>
+        ))}
 
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 60%)" }} />
+        <div className="absolute inset-0 z-[1] bg-gradient-to-t from-black via-black/50 to-transparent" />
+        <div className="absolute inset-0 z-[1] pointer-events-none bg-gradient-to-r from-black/70 via-black/20 to-transparent" />
 
-      <div className="hero-anim hero-line absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#C9A84C]/30 to-transparent z-20" />
+        <div className="absolute bottom-0 left-0 right-0 z-10 pb-8 md:pb-12">
+          <div className="max-w-[1080px] xl:max-w-[1400px] mx-auto px-6 xl:px-10">
+            <div className="max-w-2xl">
+              <p
+                className="font-poppins text-[#0E7490] text-[0.6rem] md:text-[0.7rem] font-semibold tracking-[0.25em] uppercase mb-4 md:mb-6 transition-all duration-700 ease-out"
+                style={{
+                  opacity: textVisible ? 1 : 0,
+                  transform: textVisible ? "translateY(0)" : "translateY(15px)",
+                }}
+              >
+                <span className="inline-block w-6 md:w-8 h-px bg-[#0E7490]/50 mr-2 md:mr-3 align-middle" />
+                {slides[current].eyebrow}
+              </p>
 
-      <div className="relative z-10 text-center px-6 max-w-3xl mx-auto">
-        <div className="hero-anim hd1">
-          <span className="inline-block text-[0.58rem] font-bold tracking-[0.4em] uppercase text-[#C9A84C]/50 mb-10">Barmańska eksperencja</span>
+              <h1
+                className="text-white font-serif font-bold leading-[0.9] tracking-[-0.02em] mb-4 md:mb-6 transition-all duration-700 delay-100 ease-out"
+                style={{
+                  fontSize: "clamp(2.2rem, 6vw, 6rem)",
+                  opacity: textVisible ? 1 : 0,
+                  transform: textVisible ? "translateY(0)" : "translateY(20px)",
+                }}
+              >
+                {slides[current].title}
+              </h1>
+
+              <p
+                className="font-poppins text-white/40 text-xs md:text-[0.95rem] leading-[1.8] max-w-md md:max-w-lg mb-6 md:mb-10 transition-all duration-700 delay-200 ease-out"
+                style={{
+                  opacity: textVisible ? 1 : 0,
+                  transform: textVisible ? "translateY(0)" : "translateY(20px)",
+                }}
+              >
+                {slides[current].description}
+              </p>
+
+              <div
+                className="flex flex-wrap items-center gap-4 transition-all duration-700 delay-300 ease-out"
+                style={{
+                  opacity: textVisible ? 1 : 0,
+                  transform: textVisible ? "translateY(0)" : "translateY(20px)",
+                }}
+              >
+                <Link
+                  href={slides[current].cta.href}
+                  className="group inline-flex items-center gap-2.5 px-6 md:px-8 py-3 md:py-4 bg-white text-black font-poppins text-[0.65rem] md:text-[0.7rem] font-semibold tracking-[0.1em] uppercase rounded-full hover:bg-[#0E7490] hover:text-white transition-all duration-300 hover:shadow-[0_15px_30px_-10px_rgba(14,116,144,0.4)]"
+                >
+                  {slides[current].cta.label}
+                  <MdArrowOutward
+                    size={14}
+                    className="transition-transform group-hover:rotate-45 duration-300"
+                  />
+                </Link>
+                <Link
+                  href="/kontakt"
+                  className="font-poppins text-white/30 hover:text-white/70 text-[0.65rem] md:text-[0.7rem] font-medium tracking-[0.08em] uppercase transition-colors duration-300 flex items-center gap-2"
+                >
+                  Wycena
+                  <MdArrowOutward size={12} />
+                </Link>
+              </div>
+            </div>
+
+            <div className="mt-6 md:mt-12">
+              <div className="flex flex-row items-center justify-between bg-white/[0.03] backdrop-blur-md border border-white/[0.06] rounded-xl md:rounded-2xl px-4 py-3 md:px-8 md:py-5">
+                <div className="flex items-center gap-3">
+                  <div className="hidden sm:flex -space-x-2">
+                    {[11, 23, 37, 49].map((seed) => (
+                      <div
+                        key={seed}
+                        className="w-7 h-7 md:w-9 md:h-9 rounded-full border-2 border-black/50 overflow-hidden bg-white/10"
+                      >
+                        <img
+                          src={`https://picsum.photos/seed/face-${seed}/80/80.jpg`}
+                          alt=""
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-1">
+                      {[1, 2, 3, 4, 5].map((s) => (
+                        <FaStar key={s} size={8} className="text-[#0E7490]" />
+                      ))}
+                      <span className="text-white/80 text-[0.65rem] font-bold ml-1 font-poppins">
+                        5.0
+                      </span>
+                    </div>
+                    <p className="text-white/30 text-[0.55rem] tracking-[0.15em] uppercase font-poppins hidden sm:block">
+                      +200 Zadowolonych Clientów
+                    </p>
+                  </div>
+                </div>
+
+                <div className="hidden sm:block w-px h-6 bg-white/10" />
+
+                <div className="flex items-center gap-2.5 md:gap-4">
+                  {slides.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => handleSlideChange(index)}
+                      className="relative flex items-center justify-center w-6 h-6 md:w-auto md:h-auto"
+                      aria-label={`Przejdź do slajdu ${index + 1}`}
+                    >
+                      <span
+                        className={`absolute block w-1 h-1 rounded-full bg-[#0E7490] transition-all duration-500 md:hidden ${
+                          index === current
+                            ? "scale-100 opacity-100"
+                            : "scale-0 opacity-0"
+                        }`}
+                      />
+                      <span
+                        className={`font-poppins text-[0.65rem] tracking-widest transition-all duration-500 hidden md:block ${
+                          index === current
+                            ? "text-white font-bold"
+                            : "text-white/20 hover:text-white/50 font-medium"
+                        }`}
+                      >
+                        0{index + 1}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </section>
 
-        <h1 className="font-serif font-bold leading-[0.88] tracking-[-0.02em] mb-8">
-          <span className="hero-anim hd2 block text-white" style={{ fontSize: "clamp(3.5rem, 11vw, 9rem)" }}>Brothers</span>
-          <span className="hero-anim hd3 block mt-1" style={{ fontSize: "clamp(3.5rem, 11vw, 9rem)", background: "linear-gradient(90deg, #C9A84C 0%, #E0C068 25%, #fff 50%, #E0C068 75%, #C9A84C 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", animation: "shimmer 4s linear infinite" }}>Bartenders</span>
-        </h1>
-
-        <div className="hero-anim hd4 w-12 h-px bg-gradient-to-r from-[#C9A84C]/60 to-transparent mx-auto mb-8" />
-
-        <p className="hero-anim hd5 text-[0.88rem] md:text-[0.95rem] text-[#666] max-w-md mx-auto leading-[1.85]">
-          Pozwól, aby Brothers Bartenders przenieśli Cię w świat pełen kolorowych, światowej klasy koktajli, dobrej zabawy i radości.
-        </p>
-
-        <div className="hero-anim hd6 flex flex-col sm:flex-row items-center justify-center gap-4 mt-12">
-          <Link href="/#oferta" className="inline-flex items-center gap-2.5 px-8 py-3.5 bg-[#C9A84C] text-[#050505] text-[0.72rem] font-semibold tracking-[0.08em] uppercase rounded-[3px] hover:bg-[#E0C068] hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#C9A84C]/20 transition-all duration-300">
-            <span>Poznaj ofertę</span>
-            <span className="iconify" data-icon="mdi:arrow-right" data-width="14" />
-          </Link>
-          <Link href="/#o-nas" className="inline-flex items-center gap-2.5 px-8 py-3.5 bg-transparent text-white text-[0.72rem] font-semibold tracking-[0.08em] uppercase rounded-[3px] border border-[#333] hover:border-[#C9A84C] hover:text-[#C9A84C] hover:-translate-y-0.5 transition-all duration-300">Nasza historia</Link>
-        </div>
-
-        <div className="hero-anim hd7 mt-16">
-          <span className="inline-block text-[0.52rem] font-bold tracking-[0.4em] uppercase text-[#2a2a2a] border border-[#1A1A1A] rounded-full px-5 py-2">Est. 2017</span>
-        </div>
-      </div>
-
-      <div className="hero-anim hd7 absolute bottom-10 left-1/2 -translate-x-1/2">
-        <div className="flex flex-col items-center gap-2.5" style={{ animation: "bounceSoft 2.5s ease-in-out infinite" }}>
-          <span className="text-[0.5rem] tracking-[0.4em] uppercase text-[#222] font-medium">Scroll</span>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-20"><path d="M12 5v14M5 12l7 7 7-7" /></svg>
-        </div>
-      </div>
-    </section>
+      <style jsx>{`
+        @keyframes kenBurns {
+          from {
+            transform: scale(1);
+          }
+          to {
+            transform: scale(1.08);
+          }
+        }
+        .hero-slide-active {
+          animation: kenBurns 8s ease-out forwards;
+        }
+      `}</style>
+    </>
   );
 }

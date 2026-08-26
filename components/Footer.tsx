@@ -1,90 +1,167 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
+import { FaInstagram, FaFacebookF, FaTiktok } from "react-icons/fa";
+import { MdEmail, MdPhone } from "react-icons/md";
 
 const navLinks = [
-  { href: "/#start", label: "Start" },
-  { href: "/#o-nas", label: "O nas" },
-  { href: "/#oferta", label: "Oferta" },
-  { href: "/#galeria", label: "Galeria" },
-  { href: "/#kontakt", label: "Kontakt" },
-];
-
-const socials = [
-  { href: "#", icon: "mdi:instagram", label: "Instagram" },
-  { href: "#", icon: "mdi:facebook", label: "Facebook" },
-  { href: "#", icon: "ic:baseline-tiktok", label: "TikTok" },
+  { href: "/", label: "Start" },
+  { href: "/o-nas", label: "O nas" },
+  { href: "/wesela", label: "Wesela" },
+  { href: "/eventy", label: "Eventy" },
+  { href: "/realizacje", label: "Realizacje" },
+  { href: "/kontakt", label: "Kontakt" },
 ];
 
 export default function Footer() {
   return (
-    <footer id="kontakt" className="relative border-t border-[#1A1A1A]">
-      <div className="max-w-[1400px] mx-auto px-6 md:px-10 py-16 md:py-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
-          {/* Brand */}
-          <div className="lg:col-span-1">
-            <Link href="/" className="inline-flex items-center gap-3 mb-5">
-              <span className="font-serif text-[#C9A84C] text-2xl font-bold leading-none">BB</span>
-              <span className="text-[0.6rem] font-medium tracking-[0.15em] uppercase text-[#555] leading-tight">Brothers<br/>Bartenders</span>
-            </Link>
-            <p className="text-[#444] text-[0.82rem] leading-[1.8] max-w-xs">
-              Barmani na wesela, imprezy firmowe i pokazy barmańskie. Przenosimy Cię w świat pełen kolorowych, światowej klasy koktajli.
-            </p>
-          </div>
+    <footer className="bg-black border-t border-white/[0.08]">
+      <div className="max-w-[1080px] xl:max-w-[1400px] mx-auto px-6 xl:px-10 pt-16 lg:pt-20 pb-8">
+        {/* Sekcja górna: Duże logo + Social Media (wycentrowane) */}
+        <div className="flex flex-col items-center text-center pb-12 border-b border-white/[0.08]">
+          <Link href="/" className="shrink-0 mb-8">
+            <Image
+              src="/logo.png"
+              alt="Brothers Bartenders"
+              width={300}
+              height={85}
+              className="h-[70px] w-auto brightness-0 invert"
+              priority={false}
+            />
+          </Link>
 
-          {/* Nav */}
+          <div className="flex items-center gap-5">
+            <a
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white/40 hover:text-[#0E7490] transition-colors duration-300"
+              aria-label="Instagram"
+            >
+              <FaInstagram size={18} />
+            </a>
+            <a
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white/40 hover:text-[#0E7490] transition-colors duration-300"
+              aria-label="Facebook"
+            >
+              <FaFacebookF size={16} />
+            </a>
+            <a
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white/40 hover:text-[#0E7490] transition-colors duration-300"
+              aria-label="TikTok"
+            >
+              <FaTiktok size={16} />
+            </a>
+          </div>
+        </div>
+
+        {/* Główna siatka 3-kolumnowa (równo rozłożona) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10 py-12">
+          {/* Kolumna 1: Nawigacja */}
           <div>
-            <h4 className="text-[0.65rem] font-bold tracking-[0.2em] uppercase text-[#555] mb-5">Nawigacja</h4>
+            <h4 className="text-[0.7rem] font-bold tracking-[0.2em] uppercase text-white/50 mb-5">
+              Nawigacja
+            </h4>
             <ul className="space-y-3">
               {navLinks.map((l) => (
                 <li key={l.href}>
-                  <Link href={l.href} className="text-[#444] text-[0.85rem] hover:text-[#C9A84C] transition-colors duration-300">{l.label}</Link>
+                  <Link
+                    href={l.href}
+                    className="text-white/50 text-sm hover:text-[#0E7490] transition-colors duration-300"
+                  >
+                    {l.label}
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Contact */}
+          {/* Kolumna 2: Kontakt */}
           <div>
-            <h4 className="text-[0.65rem] font-bold tracking-[0.2em] uppercase text-[#555] mb-5">Kontakt</h4>
-            <ul className="space-y-3">
+            <h4 className="text-[0.7rem] font-bold tracking-[0.2em] uppercase text-white/50 mb-5">
+              Kontakt
+            </h4>
+            <ul className="space-y-4">
               <li>
-                <a href="mailto:kontakt@brothersbartenders.pl" className="text-[#444] text-[0.85rem] hover:text-[#C9A84C] transition-colors duration-300 break-all">kontakt@brothersbartenders.pl</a>
+                <a
+                  href="mailto:kontakt@brothersbartenders.pl"
+                  className="flex items-start gap-3 text-white/50 text-sm hover:text-[#0E7490] transition-colors duration-300"
+                >
+                  <MdEmail
+                    size={16}
+                    className="text-[#0E7490] mt-0.5 shrink-0"
+                  />
+                  kontakt@brothersbartenders.pl
+                </a>
               </li>
               <li>
-                <a href="tel:+48000000000" className="text-[#444] text-[0.85rem] hover:text-[#C9A84C] transition-colors duration-300">+48 000 000 000</a>
+                <a
+                  href="tel:+48000000000"
+                  className="flex items-center gap-3 text-white/50 text-sm hover:text-[#0E7490] transition-colors duration-300"
+                >
+                  <MdPhone size={15} className="text-[#0E7490] shrink-0" />
+                  +48 000 000 000
+                </a>
               </li>
             </ul>
           </div>
 
-          {/* Social */}
+          {/* Kolumna 3: Informacje */}
           <div>
-            <h4 className="text-[0.65rem] font-bold tracking-[0.2em] uppercase text-[#555] mb-5">Social media</h4>
-            <div className="flex items-center gap-4">
-              {socials.map((s) => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full border border-[#1A1A1A] flex items-center justify-center text-[#555] hover:text-[#C9A84C] hover:border-[#C9A84C]/30 transition-all duration-300"
-                  aria-label={s.label}
+            <h4 className="text-[0.7rem] font-bold tracking-[0.2em] uppercase text-white/50 mb-5">
+              Informacje
+            </h4>
+            <ul className="space-y-3">
+              <li>
+                <Link
+                  href="/polityka-prywatnosci"
+                  className="text-white/50 text-sm hover:text-[#0E7490] transition-colors duration-300"
                 >
-                  <span className="iconify" data-icon={s.icon} data-width="18" />
-                </a>
-              ))}
-            </div>
+                  Polityka prywatności
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/rodo"
+                  className="text-white/50 text-sm hover:text-[#0E7490] transition-colors duration-300"
+                >
+                  RODO
+                </Link>
+              </li>
+            </ul>
           </div>
         </div>
 
-        {/* Bottom */}
-        <div className="mt-16 pt-8 border-t border-[#111] flex flex-col md:flex-row items-center justify-between gap-4">
-          <span className="text-[#333] text-[0.72rem] tracking-wide">
-            © {new Date().getFullYear()} Brothers Bartenders. Wszystkie prawa zastrzeżone.
-          </span>
-          <span className="text-[#222] text-[0.65rem] tracking-wide">
-            Est. 2017
-          </span>
+        {/* Dolna belka Copyright i Realizacja */}
+        <div className="pt-8 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-neutral-600 text-xs tracking-wider text-center sm:text-left">
+            © {new Date().getFullYear()} Brothers Bartenders · Wszystkie prawa
+            zastrzeżone
+          </p>
+
+          <a
+            href="https://klaudiuszdev.pl"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex items-center gap-2.5 text-neutral-600 hover:text-[#0E7490] transition-colors duration-300"
+          >
+            <span className="text-xs tracking-wider">
+              Realizacja: klaudiuszdev.pl
+            </span>
+            {/* Używamy tagu img dla zewnętrznego SVG, aby uniknąć problemów z konfiguracją Next.js (next.config.js domains) */}
+            <img
+              src="https://klaudiuszdev.pl/hello.svg"
+              alt="Klaudiuszdev"
+              className="w-4 h-4 brightness-0 invert opacity-60 group-hover:opacity-100 transition-opacity duration-300"
+            />
+          </a>
         </div>
       </div>
     </footer>
