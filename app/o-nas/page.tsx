@@ -230,7 +230,6 @@ export default function ONas() {
         </div>
       </section>
 
-      {/* TIMELINE - NAPRAWIONY RWD */}
       <section
         data-observe
         className="py-20 lg:py-28 px-5 sm:px-6 xl:px-10 bg-white"
@@ -246,10 +245,11 @@ export default function ONas() {
           </div>
 
           <div className="relative max-w-4xl mx-auto">
-            {/* Linia pionowa Desktop (środek) */}
+            {/* Linia Desktop (idealny środek) */}
             <div className="hidden md:block absolute top-0 bottom-0 left-1/2 w-px bg-gray-200 -translate-x-1/2" />
-            {/* Linia pionowa Mobile (lewo) */}
-            <div className="md:hidden absolute top-0 bottom-0 left-[19px] w-px bg-gray-200" />
+
+            {/* Linia Mobile (środek to 20px) */}
+            <div className="md:hidden absolute top-0 bottom-0 left-[20px] w-px bg-gray-200" />
 
             <div className="space-y-12 md:space-y-16">
               {timeline.map((item, i) => (
@@ -257,20 +257,22 @@ export default function ONas() {
                   key={item.year}
                   className={`anim d${Math.min(i + 1, 4)} relative`}
                 >
-                  {/* Kropka z rokiem */}
+                  {/* KROPKA Z ROKIEM */}
+                  {/* left-0 w połączeniu z -translate-x-1/2 idealnie wyśrodkowuje 40px kółko na linii 20px */}
                   <div className="absolute left-0 md:left-1/2 top-0 w-10 h-10 -translate-x-1/2 rounded-full bg-white border-4 border-[#0E7490] flex items-center justify-center shadow-lg shadow-[#0E7490]/20 z-10">
                     <span className="font-poppins text-[#0E7490] text-[0.55rem] font-bold">
                       {item.year}
                     </span>
                   </div>
 
-                  {/* Treść - na desktopie flex ze zmianą kierunku, na mobile zwykły padding */}
+                  {/* TREŚĆ - Brak duplikatów, czysty grid */}
                   <div
-                    className={`pl-14 md:pl-0 md:grid md:grid-cols-2 md:gap-16 items-center ${i % 2 !== 0 ? "md:flex-row-reverse" : ""}`}
+                    className={`pl-14 md:pl-0 md:grid md:grid-cols-2 md:gap-16 items-center ${
+                      i % 2 !== 0 ? "[&>*]:md:!order-2" : "" // Magiczna klasa odwracająca kolumny dla nieparzystych
+                    }`}
                   >
-                    {/* Lewa kolumna */}
                     <div
-                      className={`${i % 2 !== 0 ? "md:order-2 md:text-left" : "md:text-right"} ${i % 2 === 0 ? "" : "hidden md:block"}`}
+                      className={`${i % 2 !== 0 ? "md:text-left" : "md:text-right"}`}
                     >
                       <h3 className="font-serif text-xl md:text-2xl font-bold text-black mb-2 tracking-tight">
                         {item.title}
@@ -280,20 +282,8 @@ export default function ONas() {
                       </p>
                     </div>
 
-                    {/* Prawa kolumna (przerwa na desktopie) */}
-                    <div
-                      className={`${i % 2 !== 0 ? "md:order-1" : ""} hidden md:block`}
-                    ></div>
-
-                    {/* Duplikat tekstu na mobile (zawsze widoczny) */}
-                    <div className="md:hidden mt-1">
-                      <h3 className="font-serif text-xl font-bold text-black mb-2 tracking-tight">
-                        {item.title}
-                      </h3>
-                      <p className="font-poppins text-gray-500 text-sm leading-[1.85]">
-                        {item.desc}
-                      </p>
-                    </div>
+                    {/* Pusta przestrzeń dla drugiej kolumny, ukryta na mobile */}
+                    <div className="hidden md:block"></div>
                   </div>
                 </div>
               ))}

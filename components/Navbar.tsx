@@ -175,85 +175,109 @@ export default function Navbar() {
       </header>
 
       {/* MENU MOBILNE - NAPRAWIONE */}
+      {/* MENU MOBILNE */}
       <div
-        className={`lg:hidden fixed bottom-0 left-0 right-0 h-[85vh] bg-black z-[45] border-t border-white/10 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-y-auto ${
+        className={`lg:hidden fixed inset-x-0 bottom-0 z-[45] h-[78dvh] max-h-[680px] bg-black border-t border-white/10 rounded-t-[28px] shadow-[0_-20px_60px_rgba(0,0,0,0.35)] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           open ? "translate-y-0" : "translate-y-full"
         }`}
       >
-        <div className="relative h-full flex flex-col px-6 pt-6 pb-10 max-w-[1080px] xl:max-w-[1400px] mx-auto">
-          <div className="flex justify-end mb-6">
+        <div className="h-full max-w-[520px] mx-auto px-5 pt-4 pb-[max(16px,env(safe-area-inset-bottom))] flex flex-col">
+          {/* uchwyt */}
+          <div className="flex justify-center mb-3">
+            <span className="w-9 h-1 rounded-full bg-white/15" />
+          </div>
+
+          {/* header */}
+          <div className="flex items-center justify-between mb-2">
+            <span className="font-poppins text-[10px] uppercase tracking-[0.16em] text-white/30">
+              Menu
+            </span>
+
             <button
               onClick={() => setOpen(false)}
-              className="w-10 h-10 flex items-center justify-center rounded-full border border-white/20 text-white hover:bg-white/10 transition-colors duration-300"
+              className="w-9 h-9 flex items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-white/70 hover:bg-white/10 hover:text-white transition-all duration-300"
               aria-label="Zamknij menu"
             >
-              <MdClose size={20} />
+              <MdClose size={18} />
             </button>
           </div>
 
-          <nav className="flex-1 flex flex-col justify-center gap-0">
+          {/* nawigacja */}
+          <nav className="flex-1 overflow-y-auto py-2 scrollbar-hide">
             {links.map((l, i) => (
               <Fragment key={l.href}>
                 <Link
                   href={l.href}
                   onClick={() => setOpen(false)}
-                  className={`py-4 font-poppins text-2xl font-semibold tracking-[0.02em] transition-colors ${
+                  className={`flex items-center justify-between py-3.5 font-poppins text-[1.35rem] font-medium tracking-[-0.02em] transition-all duration-300 ${
                     isActive(l.href)
                       ? "text-[#0E7490]"
-                      : "text-white/40 hover:text-white"
+                      : "text-white/65 hover:text-white"
                   }`}
                   style={{
-                    transitionDelay: open ? `${i * 50}ms` : "0ms",
+                    transitionDelay: open ? `${i * 35}ms` : "0ms",
                     opacity: open ? 1 : 0,
-                    transform: open ? "translateY(0)" : "translateY(20px)",
-                    transitionProperty: "all",
-                    transitionTimingFunction: "cubic-bezier(0.16,1,0.3,1)",
-                    transitionDuration: "0.4s",
+                    transform: open ? "translateY(0)" : "translateY(12px)",
                   }}
                 >
-                  {l.label}
+                  <span>{l.label}</span>
+
+                  <MdArrowOutward
+                    size={17}
+                    className={`transition-all duration-300 ${
+                      isActive(l.href)
+                        ? "opacity-100"
+                        : "opacity-0 -translate-x-2"
+                    }`}
+                  />
                 </Link>
+
                 {i < links.length - 1 && (
-                  <div className="flex justify-center">
-                    <span className="w-8 h-px bg-white/10 block" />
-                  </div>
+                  <div className="h-px bg-white/[0.07]" />
                 )}
               </Fragment>
             ))}
           </nav>
 
+          {/* dół */}
           <div
-            className="flex flex-col items-center gap-6 pb-4"
+            className="pt-3 border-t border-white/10"
             style={{
-              transitionDelay: open ? "350ms" : "0ms",
+              transitionDelay: open ? "280ms" : "0ms",
               opacity: open ? 1 : 0,
-              transform: open ? "translateY(0)" : "translateY(20px)",
+              transform: open ? "translateY(0)" : "translateY(12px)",
               transitionProperty: "all",
               transitionTimingFunction: "cubic-bezier(0.16,1,0.3,1)",
               transitionDuration: "0.4s",
             }}
           >
-            <div className="flex items-center gap-6 mb-2">
-              {socials.map((s) => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-white/40 hover:text-white transition-colors duration-300"
-                  aria-label={s.label}
-                >
-                  <s.icon size={18} />
-                </a>
-              ))}
+            <div className="flex items-center justify-between gap-4">
+              {/* social media */}
+              <div className="flex items-center gap-4">
+                {socials.map((s) => (
+                  <a
+                    key={s.label}
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-8 h-8 flex items-center justify-center rounded-full border border-white/10 text-white/40 hover:text-white hover:border-white/25 transition-all duration-300"
+                    aria-label={s.label}
+                  >
+                    <s.icon size={14} />
+                  </a>
+                ))}
+              </div>
+
+              {/* CTA */}
+              <Link
+                href="/kontakt"
+                onClick={() => setOpen(false)}
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#0E7490] text-white font-poppins text-[0.65rem] font-semibold tracking-[0.05em] uppercase rounded-full hover:bg-[#0b6076] transition-colors duration-300"
+              >
+                Rezerwuj
+                <MdArrowOutward size={14} />
+              </Link>
             </div>
-            <Link
-              href="/kontakt"
-              onClick={() => setOpen(false)}
-              className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#0E7490] text-white font-poppins text-[0.72rem] font-semibold tracking-[0.05em] uppercase rounded-full"
-            >
-              Zarezerwuj termin
-            </Link>
           </div>
         </div>
       </div>
