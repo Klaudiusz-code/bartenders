@@ -245,45 +245,46 @@ export default function ONas() {
           </div>
 
           <div className="relative max-w-4xl mx-auto">
-            {/* Linia Desktop (idealny środek) */}
-            <div className="hidden md:block absolute top-0 bottom-0 left-1/2 w-px bg-gray-200 -translate-x-1/2" />
+            <div className="hidden md:block absolute top-6 left-[12.5%] right-[12.5%] h-px bg-gray-200" />
 
-            {/* Linia Mobile (środek to 20px) */}
             <div className="md:hidden absolute top-0 bottom-0 left-[20px] w-px bg-gray-200" />
 
-            <div className="space-y-12 md:space-y-16">
+            <div className="md:flex md:justify-between">
               {timeline.map((item, i) => (
                 <div
                   key={item.year}
-                  className={`anim d${Math.min(i + 1, 4)} relative`}
+                  className={`anim d${Math.min(i + 1, 4)} relative flex-1`}
                 >
-                  {/* KROPKA Z ROKIEM */}
-                  {/* left-0 w połączeniu z -translate-x-1/2 idealnie wyśrodkowuje 40px kółko na linii 20px */}
-                  <div className="absolute left-0 md:left-1/2 top-0 w-10 h-10 -translate-x-1/2 rounded-full bg-white border-4 border-[#0E7490] flex items-center justify-center shadow-lg shadow-[#0E7490]/20 z-10">
-                    <span className="font-poppins text-[#0E7490] text-[0.55rem] font-bold">
-                      {item.year}
-                    </span>
-                  </div>
-
-                  {/* TREŚĆ - Brak duplikatów, czysty grid */}
-                  <div
-                    className={`pl-14 md:pl-0 md:grid md:grid-cols-2 md:gap-16 items-center ${
-                      i % 2 !== 0 ? "[&>*]:md:!order-2" : "" // Magiczna klasa odwracająca kolumny dla nieparzystych
-                    }`}
-                  >
-                    <div
-                      className={`${i % 2 !== 0 ? "md:text-left" : "md:text-right"}`}
-                    >
-                      <h3 className="font-serif text-xl md:text-2xl font-bold text-black mb-2 tracking-tight">
+                  <div className="md:hidden relative pl-[60px] pb-12 last:pb-0">
+                    <div className="absolute left-0 top-[5px] w-10 h-10 rounded-full bg-white border-4 border-[#0E7490] flex items-center justify-center shadow-lg shadow-[#0E7490]/20 z-10">
+                      <span className="font-poppins text-[#0E7490] text-[0.55rem] font-bold">
+                        {item.year}
+                      </span>
+                    </div>
+                    <div>
+                      <h3 className="font-serif text-xl font-bold text-black mb-2 tracking-tight">
                         {item.title}
                       </h3>
                       <p className="font-poppins text-gray-500 text-sm leading-[1.85]">
                         {item.desc}
                       </p>
                     </div>
+                  </div>
 
-                    {/* Pusta przestrzeń dla drugiej kolumny, ukryta na mobile */}
-                    <div className="hidden md:block"></div>
+                  <div className="hidden md:flex flex-col items-center text-center pt-1 px-2">
+                    <div className="w-10 h-10 rounded-full bg-white border-4 border-[#0E7490] flex items-center justify-center shadow-lg shadow-[#0E7490]/20 z-10">
+                      <span className="font-poppins text-[#0E7490] text-[0.55rem] font-bold">
+                        {item.year}
+                      </span>
+                    </div>
+                    <div className="mt-6">
+                      <h3 className="font-serif text-xl font-bold text-black mb-2 tracking-tight">
+                        {item.title}
+                      </h3>
+                      <p className="font-poppins text-gray-500 text-sm leading-[1.85] max-w-[220px] mx-auto">
+                        {item.desc}
+                      </p>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -292,7 +293,6 @@ export default function ONas() {
         </div>
       </section>
 
-      {/* NASZ KUNSZT */}
       <section
         data-observe
         className="py-20 lg:py-28 px-5 sm:px-6 xl:px-10 bg-gray-50/50"
