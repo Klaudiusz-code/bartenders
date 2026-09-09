@@ -6,41 +6,39 @@ import ServiceBlock from "./ServicesBlock";
 const services = [
   {
     num: "01",
-    title: "Barmani na wesela",
-    desc: "Zaskoczcie gości kolorowymi, orzeźwiającymi koktajlami, które cieszą się ogromnym zainteresowaniem na każdym przyjęciu. Każde menu tworzymy indywidualnie.",
+    title: "Wesela",
+    desc: "Tworzymy mobilny bar dopasowany do charakteru Waszego wesela. Autorskie koktajle, profesjonalna obsługa i wszystko, czego potrzeba, aby bar stał się jedną z atrakcji wieczoru.",
     img: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=1200&auto=format&fit=crop",
     tag: "Wesela",
-    href: "/wesela",
     features: [
       "Autorskie menu koktajlowe",
-      "Garnitur barmański w cenie",
+      "Profesjonalni barmani",
       "Szkło, składniki i sprzęt",
     ],
   },
   {
-    num: "2",
-    title: "Imprezy firmowe",
-    desc: "Bankiety, konferencje czy spotkania integracyjne wymagają szczególnej oprawy. Tworzymy menu dopasowane do profilu gości.",
+    num: "02",
+    title: "Eventy firmowe",
+    desc: "Obsługujemy bankiety, konferencje, imprezy integracyjne i wydarzenia firmowe. Dopasowujemy bar, menu oraz sposób obsługi do charakteru wydarzenia i liczby gości.",
     img: "https://images.unsplash.com/photo-1470337458703-46ad1756a187?q=80&w=1200&auto=format&fit=crop",
-    tag: "Eventy",
-    href: "/eventy",
+    tag: "Eventy firmowe",
     features: [
-      "Menu dopasowane do branży",
-      "Branding koktajli pod firmę",
-      "Obsługa od 50 do 2000 gości",
+      "Menu dopasowane do wydarzenia",
+      "Profesjonalna obsługa",
+      "Obsługa małych i dużych eventów",
     ],
   },
   {
-    num: "3",
-    title: "Pokazy barmańskie",
-    desc: "Latające w powietrzu butelki i tworzące się przy tym koktajle to wyjątkowe widowisko. Łączymy technikę flair z choreografią.",
-    img: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?q=80&w=1200&auto=format&fit=crop",
-    tag: "Pokazy",
-    href: "/eventy",
+    num: "03",
+    title: "Dodatkowe usługi",
+    desc: "Chcesz urozmaicić swoje wydarzenie? Możemy rozszerzyć oprawę baru o dodatkowe atrakcje i pakiety dopasowane do charakteru imprezy.",
+    img: "https://images.unsplash.com/photo-1470337458703-46ad1756a187?q=80&w=1200&auto=format&fit=crop",
+    tag: "Dodatkowe usługi",
     features: [
-      "Choreografia do muzyki",
-      "Interakcja z publicznością",
-      "Show od 15 do 45 minut",
+      "Champagne Tower",
+      "Pakiet lemoniad",
+      "Pakiet piw kraftowych",
+      "Pakiet konesera whisky",
     ],
   },
 ];
@@ -51,42 +49,55 @@ export default function ServicesSection() {
   useEffect(() => {
     const ob = new IntersectionObserver(
       (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            e.target
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target
               .querySelectorAll(".anim")
               .forEach((el) => el.classList.add("visible"));
-            ob.unobserve(e.target);
+
+            ob.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.1 },
+      {
+        threshold: 0.1,
+      },
     );
-    if (ref.current) ob.observe(ref.current);
+
+    if (ref.current) {
+      ob.observe(ref.current);
+    }
+
     return () => ob.disconnect();
   }, []);
 
   return (
-    <section ref={ref} className="bg-[#fafafa] py-24 lg:py-36">
+    <section id="oferta" ref={ref} className="bg-[#fafafa] py-24 lg:py-36">
       <div className="max-w-[1080px] xl:max-w-[1400px] mx-auto px-6 xl:px-10">
         <div className="mb-16 md:mb-28 max-w-2xl">
           <span className="anim inline-flex items-center gap-2 text-[0.6rem] md:text-[0.65rem] font-bold tracking-[0.3em] uppercase text-[#0E7490] mb-5">
             <span className="w-5 h-px bg-[#0E7490]/30" />
             Oferta
           </span>
+
           <h2 className="anim d1 font-serif text-3xl md:text-[2.8rem] lg:text-[3.2rem] font-bold leading-[1.05] text-black tracking-tight mb-6">
             Co możemy dla Ciebie <span className="text-[#0E7490]">zrobić</span>
           </h2>
-          {/* Dodany subtitle dla głębi i luksusowego odczucia */}
+
           <p className="anim d2 text-[#888] text-[0.95rem] leading-[1.8]">
-            Od kameralnych spotkań po wielkie imprezy plenerowe — dopasowujemy
-            nasze usługi do wizji Twojego wydarzenia.
+            Od kameralnych przyjęć po duże wydarzenia firmowe. Tworzymy oprawę
+            baru dopasowaną do charakteru, liczby gości i stylu Twojego
+            wydarzenia.
           </p>
         </div>
 
         <div className="space-y-24 lg:space-y-36">
-          {services.map((s, i) => (
-            <ServiceBlock key={s.num} {...s} reverse={i % 2 === 1} />
+          {services.map((service, index) => (
+            <ServiceBlock
+              key={service.num}
+              {...service}
+              reverse={index % 2 === 1}
+            />
           ))}
         </div>
       </div>

@@ -35,7 +35,7 @@ export default function GalleryTeaser() {
   }, []);
 
   return (
-    <section ref={ref} className="bg-white py-24 lg:py-36 overflow-hidden">
+    <section id="realizacje" ref={ref} className="bg-white py-24 lg:py-36 overflow-hidden">
       <div className="max-w-[1080px] xl:max-w-[1400px] mx-auto px-6 xl:px-10">
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-12 md:mb-16">
           <div>

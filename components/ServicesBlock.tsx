@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Link from "next/link";
-import { MdArrowRight, MdCheck } from "react-icons/md";
+import { MdCheck } from "react-icons/md";
 
 interface Props {
   num: string;
@@ -11,7 +10,6 @@ interface Props {
   img: string;
   tag: string;
   features: string[];
-  href: string;
   reverse?: boolean;
 }
 
@@ -22,7 +20,6 @@ export default function ServiceBlock({
   img,
   tag,
   features,
-  href,
   reverse,
 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
@@ -35,13 +32,18 @@ export default function ServiceBlock({
             e.target
               .querySelectorAll(".anim-left, .anim-right")
               .forEach((el) => el.classList.add("visible"));
+
             ob.unobserve(e.target);
           }
         });
       },
       { threshold: 0.15 },
     );
-    if (ref.current) ob.observe(ref.current);
+
+    if (ref.current) {
+      ob.observe(ref.current);
+    }
+
     return () => ob.disconnect();
   }, []);
 
@@ -50,7 +52,8 @@ export default function ServiceBlock({
       ref={ref}
       className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 xl:gap-28 items-center"
     >
-      <div className={`${reverse ? "lg:order-2 anim-right" : "anim-left"}`}>
+      {/* Zdjęcie */}
+      <div className={reverse ? "lg:order-2 anim-right" : "anim-left"}>
         <div className="relative overflow-hidden aspect-[4/5] rounded-3xl shadow-2xl shadow-black/10 group">
           <img
             src={img}
@@ -58,7 +61,9 @@ export default function ServiceBlock({
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             loading="lazy"
           />
+
           <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none" />
+
           <div className="absolute top-6 left-6">
             <span className="inline-flex items-center gap-2 bg-white/90 backdrop-blur-sm text-[#0E7490] font-poppins text-[0.6rem] font-bold tracking-[0.15em] uppercase px-5 py-2.5 rounded-full shadow-lg">
               {tag}
@@ -67,12 +72,15 @@ export default function ServiceBlock({
         </div>
       </div>
 
-      <div className={`${reverse ? "lg:order-1 anim-left" : "anim-right"}`}>
+      {/* Treść */}
+      <div className={reverse ? "lg:order-1 anim-left" : "anim-right"}>
         <div className="flex items-center gap-3 mb-6">
           <span className="font-poppins text-[0.65rem] font-semibold tracking-[0.2em] uppercase text-[#0E7490]/80">
             {tag}
           </span>
+
           <span className="w-6 h-px bg-gray-200" />
+
           <span className="font-poppins text-gray-300 text-[0.7rem] tracking-widest font-bold">
             {num}
           </span>
@@ -86,7 +94,7 @@ export default function ServiceBlock({
           {desc}
         </p>
 
-        <ul className="space-y-4 mb-12">
+        <ul className="space-y-4">
           {features.map((f) => (
             <li
               key={f}
@@ -95,21 +103,11 @@ export default function ServiceBlock({
               <span className="w-8 h-8 rounded-full border border-[#0E7490]/30 flex items-center justify-center shrink-0 bg-[#0E7490]/5">
                 <MdCheck size={14} className="text-[#0E7490]" />
               </span>
+
               {f}
             </li>
           ))}
         </ul>
-
-        <Link
-          href={href}
-          className="group inline-flex items-center gap-3 px-8 py-4 bg-black text-white font-poppins text-[0.7rem] font-semibold tracking-[0.1em] uppercase hover:bg-[#0E7490] transition-all duration-300 rounded-full hover:shadow-xl hover:shadow-[#0E7490]/20"
-        >
-          <span>Szczegóły oferty</span>
-          <MdArrowRight
-            size={16}
-            className="transition-transform group-hover:translate-x-1"
-          />
-        </Link>
       </div>
     </div>
   );

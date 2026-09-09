@@ -9,12 +9,10 @@ import { FaInstagram, FaFacebookF, FaTiktok } from "react-icons/fa";
 
 const links = [
   { href: "/", label: "Start" },
-  { href: "/o-nas", label: "O nas" },
-  { href: "/oferta", label: "Oferta" },
-  { href: "/wesela", label: "Wesela" },
-  { href: "/eventy", label: "Eventy" },
-  { href: "/realizacje", label: "Realizacje" },
-  { href: "/kontakt", label: "Kontakt" },
+  { href: "#o-nas", label: "O nas" },
+  { href: "#oferta", label: "Oferta" },
+  { href: "#realizacje", label: "Realizacje" },
+  { href: "#kontakt", label: "Kontakt" },
 ];
 
 const socials = [
