@@ -5,42 +5,44 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import TopBar from "@/components/TopBar";
 import { BiChevronDown } from "react-icons/bi";
 import { MdArrowOutward } from "react-icons/md";
-import Topbar from "@/components/TopBar";
 
-const categories = ["Wszystkie", "Wesela", "Eventy firmowe", "Pokazy"];
+const GOLD_COLOR = "#C5A059";
+
+const categories = ["Wszystkie", "Wesela", "Eventy firmowe", "Pakiety Extra"];
 const photos = [
   {
-    src: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=800&auto=format&fit=crop",
+    src: "/gallery1.jpg",
     cat: "Wesela",
   },
   {
-    src: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=800&auto=format&fit=crop",
+    src: "/gallery1.jpg", // To jest powtórzenie, które powoduje błąd, jeśli key=src
     cat: "Eventy firmowe",
   },
   {
-    src: "https://images.unsplash.com/photo-1551538827-9c037cb4f32a?q=80&w=800&auto=format&fit=crop",
-    cat: "Pokazy",
+    src: "/gallery6.jpg",
+    cat: "Pakiety Extra",
   },
   {
-    src: "https://images.unsplash.com/photo-1527281400683-1aae777175f8?q=80&w=800&auto=format&fit=crop",
+    src: "/gallery2.jpg",
     cat: "Wesela",
   },
   {
-    src: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=800&auto=format&fit=crop",
+    src: "/gallery4.jpg",
     cat: "Wesela",
   },
   {
-    src: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?q=80&w=800&auto=format&fit=crop",
+    src: "/gallery3.jpg",
     cat: "Eventy firmowe",
   },
   {
-    src: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?q=80&w=800&auto=format&fit=crop",
-    cat: "Pokazy",
+    src: "/gallery12.jpg",
+    cat: "Pakiety Extra",
   },
   {
-    src: "https://images.unsplash.com/photo-1509228468518-180dd4864904?q=80&w=800&auto=format&fit=crop",
+    src: "/gallery10.jpg",
     cat: "Wesela",
   },
 ];
@@ -52,15 +54,11 @@ const faqs = [
   },
   {
     q: "Co wchodzi w skład realizacji, czego nie widać na zdjęciach?",
-    a: "Praca barmana to w 60% przygotowania. W cenie realizacji jest zawsze wcześniejsze zaplanowanie logistyki, sourcing trudno dostępnych składników, przygotowanie świeżych dodatków (syropy, purée) oraz pełne sprzątanie strefy po zakończeniu imprezy.",
+    a: "Praca barmana to w 60% przygotowania. W cenie realizacji jest zawsze wcześniejsze zaplanowanie logistyki, sourcing trudno dostępnych składników, przygotowanie świeżych dodatków oraz pełne sprzątanie strefy po zakończeniu imprezy.",
   },
   {
     q: "Czy realizujecie wydarzenia tylko w zamkniętych lokalach?",
-    a: "Nie. Duża część naszych realizacji to imprezy w plenerze (namioty weselne, ogrody, tarasy). Posiadamy własne rozwiązania do pracy w trudnych warunkach terenowych, o których informujemy na etapie wyceny.",
-  },
-  {
-    q: "Ile czasu przed eventem musicie mieć dostęp do miejsca?",
-    a: "Standardowo potrzebujemy 1,5 do 2 godzin na rozłożenie sprzętu, przygotowanie składników i zaplecza. Jeśli harmonogram jest napięty, zawsze staramy się znaleźć rozwiązanie i wejść wcześniej.",
+    a: "Nie. Duża część naszych realizacji to imprezy w plenerze (namioty weselne, ogrody, tarasy). Posiadamy własne rozwiązania do pracy w trudnych warunkach terenowych.",
   },
 ];
 
@@ -91,49 +89,84 @@ export default function Realizacje() {
 
   return (
     <>
-      <Topbar />
+      <style jsx global>{`
+        .anim,
+        .anim-scale {
+          opacity: 0;
+          transform: translateY(20px);
+          transition: all 0.7s ease-out;
+        }
+        .anim-scale {
+          transform: scale(0.95);
+        }
+        .visible {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+        .d1 {
+          transition-delay: 0.1s;
+        }
+        .d2 {
+          transition-delay: 0.2s;
+        }
+        .d3 {
+          transition-delay: 0.3s;
+        }
+        .d4 {
+          transition-delay: 0.4s;
+        }
+      `}</style>
+
+      <TopBar />
       <Navbar />
 
-      {/* HERO */}
-      <section className="relative pt-[72px] md:pt-[112px] bg-black">
-        <div className="relative h-[55vh] md:h-[65vh] min-h-[420px]">
+      {/* HERO - Ciemny, płynne przejście */}
+      <section className="relative pt-[72px] md:pt-[112px] bg-[#050505]">
+        <div className="relative h-[60vh] md:h-[70vh] min-h-[450px]">
           <Image
             src="/hero1.jpg"
             alt="Galeria realizacji"
             fill
             className="object-cover"
             priority
+            style={{ objectPosition: "center 25%" }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent" />
-          <div className="absolute bottom-0 left-0 right-0 pb-12 md:pb-20">
-            <div className="max-w-[1080px] xl:max-w-[1400px] mx-auto px-5 sm:px-6 xl:px-10">
-              <span className="font-poppins inline-flex items-center gap-2 text-[0.65rem] font-semibold tracking-[0.2em] uppercase text-[#0E7490] mb-4">
-                <span className="w-5 h-px bg-[#0E7490]/40" /> Portfolio
+          <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/95 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#050505]/80 via-transparent to-transparent" />
+
+          <div className="absolute bottom-0 left-0 right-0 pb-16 md:pb-24 px-6 md:px-12 xl:px-24">
+            <div className="max-w-7xl mx-auto">
+              <span className="inline-flex items-center gap-2 font-poppins text-[0.65rem] font-bold tracking-[0.3em] uppercase text-[#C5A059] mb-4 reveal">
+                <span className="w-8 h-px bg-[#C5A059]" /> Portfolio
               </span>
-              <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold text-white leading-[0.95]">
-                Nasze <span className="text-[#0E7490]">realizacje</span>
+              <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl font-bold text-white leading-[0.95] mb-6 reveal">
+                Nasze <br />
+                <span className="text-[#C5A059] italic font-light">
+                  realizacje
+                </span>
               </h1>
-              <p className="font-poppins text-white/60 text-sm sm:text-base mt-6 max-w-lg leading-relaxed">
-                Efekty naszej pracy. Zobacz, jak wygląda strefa koktajlowa, gdy
-                zostawisz ją profesjonalistom.
+              <p className="font-poppins text-gray-400 text-base md:text-lg max-w-xl leading-relaxed reveal">
+                Zobacz, jak tworzymy klimat. Każde zdjęcie to inna historia,
+                jeden wspólny mianownik – jakość, na której nam zależy.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* GALERIA */}
-      <section className="py-20 lg:py-28 px-5 sm:px-6 xl:px-10 bg-white">
-        <div className="max-w-[1080px] xl:max-w-[1400px] mx-auto">
-          <div className="flex flex-wrap items-center gap-3 mb-12">
+      {/* GALERIA - Ciemne tło */}
+      <section className="py-12 md:py-20 px-6 md:px-12 xl:px-24 bg-[#050505]">
+        <div className="max-w-7xl mx-auto">
+          {/* Filtry - Ciemny styl */}
+          <div className="flex flex-wrap items-center gap-3 mb-12 reveal">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActive(cat)}
-                className={`font-poppins px-6 py-2.5 rounded-full text-[0.7rem] font-semibold tracking-[0.04em] uppercase border transition-all duration-300 ${
+                className={`font-poppins px-6 py-2.5 rounded-full text-[0.7rem] font-bold tracking-[0.15em] uppercase border transition-all duration-300 ${
                   active === cat
-                    ? "bg-[#0E7490] text-white border-[#0E7490] shadow-lg shadow-[#0E7490]/20"
-                    : "bg-transparent text-gray-500 border-gray-200 hover:border-[#0E7490]/50 hover:text-[#0E7490]"
+                    ? "bg-[#C5A059] text-black border-[#C5A059] shadow-lg shadow-[#C5A059]/20"
+                    : "bg-transparent text-gray-400 border-white/10 hover:border-[#C5A059]/50 hover:text-white"
                 }`}
               >
                 {cat}
@@ -141,24 +174,26 @@ export default function Realizacje() {
             ))}
           </div>
 
+          {/* Siatka zdjęć */}
           <div
             key={active}
             data-observe
-            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6"
           >
             {filtered.map((p, i) => (
               <div
-                key={p.src}
-                className={`anim-scale d${(i % 4) + 1} aspect-square rounded-2xl overflow-hidden group cursor-pointer relative bg-gray-100`}
+                key={`${p.src}-${i}`} // <--- ZMIANA: key={i} lub unikalny string, żeby nie było duplikatów
+                className={`anim-scale d${(i % 4) + 1} aspect-square rounded-xl overflow-hidden group cursor-pointer relative bg-[#0a0a0a] border border-white/5 hover:border-[#C5A059]/30 transition-all duration-500`}
               >
                 <img
                   src={p.src}
                   alt={p.cat}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90 group-hover:opacity-100"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-end p-4 md:p-5 translate-y-2 group-hover:translate-y-0">
-                  <span className="font-poppins text-white text-[0.6rem] md:text-[0.65rem] font-semibold tracking-[0.1em] uppercase bg-white/10 backdrop-blur-md rounded-full px-3 py-1.5 border border-white/20">
+                {/* Overlay na hover */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-end p-4 md:p-5 translate-y-2 group-hover:translate-y-0">
+                  <span className="font-poppins text-white text-[0.6rem] md:text-xs font-bold tracking-[0.2em] uppercase bg-[#C5A059]/10 backdrop-blur-sm rounded-full px-3 py-1.5 border border-[#C5A059]/30">
                     {p.cat}
                   </span>
                 </div>
@@ -168,33 +203,38 @@ export default function Realizacje() {
         </div>
       </section>
 
+      {/* CTA SEKCJA */}
       <section
         data-observe
-        className="py-20 lg:py-28 px-5 sm:px-6 xl:px-10 bg-[#0a0a0a] relative overflow-hidden"
+        className="py-24 lg:py-32 px-6 md:px-12 xl:px-24 bg-[#050505] relative overflow-hidden border-t border-white/5"
       >
+        {/* Dekoracja tła */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              "radial-gradient(circle at 50% 50%, rgba(14,116,144,0.12) 0%, transparent 50%)",
+              "radial-gradient(circle at 50% 50%, rgba(197, 160, 89, 0.08) 0%, transparent 50%)",
           }}
         />
-        <div className="max-w-[800px] mx-auto text-center relative z-10">
-          <h2 className="anim font-serif text-3xl md:text-[2.8rem] font-bold text-white mb-6 tracking-tight">
+
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          <h2 className="anim font-serif text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-6 tracking-tight leading-tight">
             Wasze wydarzenie może{" "}
-            <span className="text-[#0E7490]">wyglądać tak</span>
+            <span className="text-[#C5A059] italic font-light">
+              wyglądać tak
+            </span>
           </h2>
-          <p className="anim d1 font-poppins text-white/50 text-[0.95rem] leading-[1.85] mb-10 max-w-lg mx-auto">
+          <p className="anim d1 font-poppins text-gray-400 text-base md:text-lg leading-[1.8] mb-10 max-w-2xl mx-auto">
             Nie musisz martwić się o strefę koktajlową. Przejmiemy to na siebie
-            od A do Z od zakupów po sprzątanie.
+            od A do Z – od zakupów po sprzątanie, dbając o każdy detal.
           </p>
           <Link
             href="/kontakt"
-            className="anim d2 group inline-flex items-center gap-3 px-10 py-4 bg-gradient-to-r from-[#0E7490] to-[#0B9AAA] text-white font-poppins text-[0.7rem] font-semibold tracking-[0.1em] uppercase rounded-full hover:shadow-2xl hover:shadow-[#0E7490]/30 hover:-translate-y-1 transition-all duration-300"
+            className="anim d2 group inline-flex items-center gap-3 px-10 py-4 bg-white text-black font-poppins text-xs font-bold tracking-[0.15em] uppercase rounded-full hover:bg-[#C5A059] hover:text-white transition-all duration-300 shadow-xl hover:shadow-[#C5A059]/20"
           >
             <span>Zarezerwuj termin</span>
             <MdArrowOutward
-              size={16}
+              size={18}
               className="transition-transform group-hover:rotate-45"
             />
           </Link>
@@ -203,41 +243,46 @@ export default function Realizacje() {
 
       <section
         data-observe
-        className="py-20 lg:py-28 px-5 sm:px-6 xl:px-10 bg-gray-50"
+        className="py-20 lg:py-32 px-6 md:px-12 xl:px-24 bg-[#050505] border-t border-white/5"
       >
-        <div className="max-w-[800px] mx-auto">
-          <div className="text-center mb-12">
-            <span className="anim inline-flex items-center gap-2 font-poppins text-[0.65rem] font-semibold tracking-[0.2em] uppercase text-[#0E7490]/80 mb-4">
-              <span className="w-5 h-px bg-[#0E7490]/40" /> FAQ
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-16">
+            <span className="anim inline-flex items-center gap-2 font-poppins text-[0.65rem] font-bold tracking-[0.3em] uppercase text-[#C5A059] mb-4">
+              <span className="w-8 h-px bg-[#C5A059]" /> FAQ
             </span>
-            <h2 className="anim d1 font-serif text-3xl md:text-[2.8rem] font-bold text-black tracking-tight">
-              Pytania o <span className="text-[#0E7490]">realizacje</span>
+            <h2 className="anim d1 font-serif text-3xl md:text-5xl font-bold text-white tracking-tight">
+              Pytania o{" "}
+              <span className="text-[#C5A059] italic font-light">
+                realizacje
+              </span>
             </h2>
           </div>
 
-          <div className="space-y-3 md:space-y-4">
+          <div className="space-y-4">
             {faqs.map((f, i) => (
               <div key={i} className={`anim d${Math.min(i + 1, 4)}`}>
                 <div
-                  className={`bg-white rounded-xl border border-gray-100 overflow-hidden transition-all duration-300 hover:shadow-md ${openFaq === i ? "border-[#0E7490]/20 shadow-lg shadow-[#0E7490]/5" : ""}`}
+                  className={`bg-white/5 rounded-xl border border-white/5 overflow-hidden transition-all duration-300 hover:border-[#C5A059]/20 ${
+                    openFaq === i ? "bg-[#0a0a0a] border-[#C5A059]/30" : ""
+                  }`}
                 >
                   <button
                     onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                    className="w-full flex justify-between items-center p-5 sm:p-6 text-left group"
+                    className="w-full flex justify-between items-center p-6 md:p-8 text-left group"
                   >
-                    <span className="font-poppins text-black text-sm font-medium pr-4 group-hover:text-[#0E7490] transition-colors">
+                    <span className="font-poppins text-gray-200 text-[11px] md:text-base font-medium pr-4 group-hover:text-[#C5A059] transition-colors">
                       {f.q}
                     </span>
                     <BiChevronDown
-                      size={22}
-                      className={`text-[#0E7490] transition-transform duration-300 shrink-0 ${openFaq === i ? "rotate-180" : ""}`}
+                      size={24}
+                      className={`text-[#C5A059] transition-transform duration-300 shrink-0 ${openFaq === i ? "rotate-180" : ""}`}
                     />
                   </button>
                   <div
                     className={`grid transition-all duration-300 ease-in-out ${openFaq === i ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
                   >
                     <div className="overflow-hidden">
-                      <p className="font-poppins text-gray-500 text-sm leading-relaxed pb-6 px-5 sm:px-6">
+                      <p className="font-poppins text-gray-400 tex text-[10px] md:text-base leading-relaxed pb-8 px-6 md:px-8 border-t border-white/5 pt-4">
                         {f.a}
                       </p>
                     </div>

@@ -1,35 +1,33 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Image from "next/image";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { MdArrowOutward } from "react-icons/md";
-import { FaStar } from "react-icons/fa";
+import { MdArrowOutward, MdChevronLeft, MdChevronRight } from "react-icons/md";
+
+// Zmieniliśmy złoty na bardziej stonowany, elegancki odcień: #C5A059
+const GOLD_COLOR = "#C5A059";
 
 const slides = [
   {
-    img: "/hero1.jpg",
-    eyebrow: "Premium Mobile Bar",
+    img: "hero1.jpg",
     title: "Brothers Bartenders",
     description:
       "Elegancja, smak i show. Organizujemy mobilne bary koktajlowe, które definiują styl każdego wielkiego wydarzenia.",
-    cta: { label: "Sprawdź ofertę", href: "/oferta" },
+    cta: { label: "Sprawdź ofertę", href: "#oferta" },
   },
   {
-    img: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=2670&auto=format&fit=crop",
-    eyebrow: "Wesela & Imprezy Firmowe",
+    img: "gallery8.jpg",
     title: "Smak, który łączy ludzi",
     description:
       "Barmańskie doświadczenie na najwyższym poziomie. Autorskie menu i show, które na długo zapada w pamięć.",
-    cta: { label: "Zobacz realizacje", href: "/realizacje" },
+    cta: { label: "Zobacz realizacje", href: "#realizacje" },
   },
   {
-    img: "/hero1.jpg",
-    eyebrow: "Flair & Wyjątkowy Kunszt",
+    img: "gallery5.jpg",
     title: "Koktajle jak sztuka",
     description:
       "Ogień, dym i techniczna perfekcja. Drinki, które zachwycają wizualnie i wybuchają smakiem.",
-    cta: { label: "Poznaj nas", href: "/o-nas" },
+    cta: { label: "Poznaj nas", href: "#o-nas" },
   },
 ];
 
@@ -39,196 +37,160 @@ export default function Hero() {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setTextVisible(false);
-      setTimeout(() => {
-        setCurrent((prev) => (prev + 1) % slides.length);
-        setTextVisible(true);
-      }, 500);
+      nextSlide();
     }, 7000);
     return () => clearInterval(timer);
   }, [current]);
 
-  const handleSlideChange = (index: number) => {
+  const nextSlide = () => {
+    if (!textVisible) return;
     setTextVisible(false);
     setTimeout(() => {
-      setCurrent(index);
+      setCurrent((prev) => (prev + 1) % slides.length);
       setTextVisible(true);
     }, 500);
   };
 
+  const prevSlide = () => {
+    if (!textVisible) return;
+    setTextVisible(false);
+    setTimeout(() => {
+      setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
+      setTextVisible(true);
+    }, 600);
+  };
+
+  const handleDotClick = (index: number) => {
+    if (current === index || !textVisible) return;
+    setTextVisible(false);
+    setTimeout(() => {
+      setCurrent(index);
+      setTextVisible(true);
+    }, 700);
+  };
+
   return (
-    <>
-      <section className="relative h-screen w-full overflow-hidden bg-black">
-        {slides.map((slide, index) => (
-          <div
-            key={index}
-            className={`absolute inset-0 transition-opacity duration-[1200ms] ease-in-out ${
-              index === current
-                ? "opacity-100 z-0 hero-slide-active"
-                : "opacity-0 z-[-1]"
+    <section className="relative h-screen w-full overflow-hidden bg-black">
+      {slides.map((slide, index) => (
+        <div
+          key={index}
+          className={`absolute inset-0 transition-opacity duration-[1500ms] ease-in-out ${
+            index === current ? "opacity-100 z-0" : "opacity-0 z-[-1]"
+          }`}
+        >
+          <img
+            src={slide.img}
+            alt={slide.title}
+            className={`w-full h-full object-cover transition-transform duration-[12000ms] ease-linear ${
+              index === current ? "scale-105" : "scale-100"
             }`}
-          >
-            <Image
-              src={slide.img}
-              alt="Brothers Bartenders"
-              fill
-              className="object-cover object-center"
-              priority={index === 0}
-              sizes="100vw"
-            />
-          </div>
-        ))}
+            style={{ objectPosition: "center 25%" }}
+          />
+        </div>
+      ))}
 
-        {/* ZACIEMNIENIE Z GÓRY - dynamiczne h-[15vh] / h-[22vh] blokuje wchodzenie pod menu na każdym laptopie */}
-        <div className="absolute inset-0 z-[1] bg-gradient-to-b from-black/90 via-black/50 to-transparent h-[15vh] md:h-[22vh]" />
-        <div className="absolute inset-0 z-[1] bg-gradient-to-t from-black via-black/60 to-transparent" />
-        <div className="absolute inset-0 z-[1] pointer-events-none bg-gradient-to-r from-black/70 via-black/20 to-transparent" />
+      {/* Gradients - dostosowane do płynnego przejścia w About */}
+      <div className="absolute inset-0 z-[1] bg-gradient-to-t from-[#050505] via-black/40 to-black/60" />
+      <div className="absolute inset-0 z-[1] pointer-events-none bg-gradient-to-r from-black/80 via-transparent to-transparent" />
 
-        {/* TEKST - zoptymalizowane pozycjonowanie */}
-        <div className="absolute left-0 right-0 z-10 bottom-[6%] md:bottom-[12%] px-5 sm:px-6 xl:px-10">
-          <div className="max-w-[1080px] xl:max-w-[1400px] mx-auto">
-            <div className="max-w-2xl">
-              <p
-                className="font-poppins text-[#0E7490] text-[0.6rem] md:text-[0.7rem] font-semibold tracking-[0.25em] uppercase mb-3 md:mb-5 transition-all duration-700 ease-out"
-                style={{
-                  opacity: textVisible ? 1 : 0,
-                  transform: textVisible ? "translateY(0)" : "translateY(15px)",
-                }}
+      <button
+        onClick={prevSlide}
+        className="absolute left-6 md:left-12 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full border border-white/10 bg-black/10 backdrop-blur-[2px] text-white/50 hover:bg-white hover:text-black hover:border-white transition-all duration-500 flex items-center justify-center group opacity-0 md:opacity-100"
+        aria-label="Poprzedni slajd"
+      >
+        <MdChevronLeft
+          size={28}
+          className="transition-transform duration-300 group-hover:-translate-x-1"
+        />
+      </button>
+
+      <button
+        onClick={nextSlide}
+        className="absolute right-6 md:right-12 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full border border-white/10 bg-black/10 backdrop-blur-[2px] text-white/50 hover:bg-white hover:text-black hover:border-white transition-all duration-500 flex items-center justify-center group opacity-0 md:opacity-100"
+        aria-label="Następny slajd"
+      >
+        <MdChevronRight
+          size={28}
+          className="transition-transform duration-300 group-hover:translate-x-1"
+        />
+      </button>
+
+      <div className="absolute left-0 right-0 z-10 bottom-[15%] md:bottom-[20%] px-6 xl:px-[140px]">
+        <div className="max-w-[1400px] mx-auto">
+          <div className="max-w-[700px] md:max-w-[800px]">
+            <h1
+              className="text-white font-serif font-bold leading-[0.9] tracking-[-0.03em] mb-8 transition-all duration-[1000ms] delay-100 ease-[cubic-bezier(0.22,1,0.36,1)]"
+              style={{
+                fontSize: "clamp(2.5rem, 5vw, 4.5rem)",
+                opacity: textVisible ? 1 : 0,
+                transform: textVisible ? "translateY(0)" : "translateY(40px)",
+              }}
+            >
+              {slides[current].title}
+            </h1>
+
+            <p
+              className="font-poppins text-white/70 text-base md:text-lg leading-relaxed mb-10 transition-all duration-[1000ms] delay-200 ease-[cubic-bezier(0.22,1,0.36,1)] border-l-2 pl-6"
+              style={{
+                borderColor: textVisible ? GOLD_COLOR : "transparent",
+                opacity: textVisible ? 1 : 0,
+                transform: textVisible ? "translateY(0)" : "translateY(40px)",
+              }}
+            >
+              {slides[current].description}
+            </p>
+
+            <div
+              className="flex flex-wrap items-center gap-6 transition-all duration-[1000ms] delay-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
+              style={{
+                opacity: textVisible ? 1 : 0,
+                transform: textVisible ? "translateY(0)" : "translateY(40px)",
+              }}
+            >
+              <Link
+                href={slides[current].cta.href}
+                className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-black font-poppins text-xs md:text-sm font-bold tracking-[0.15em] uppercase rounded-sm hover:bg-[#C5A059] hover:text-white transition-all duration-500 relative overflow-hidden"
               >
-                <span className="inline-block w-6 md:w-8 h-px bg-[#0E7490]/50 mr-2 md:mr-3 align-middle" />
-                {slides[current].eyebrow}
-              </p>
-
-              <h1
-                className="text-white font-serif font-bold leading-[0.9] tracking-[-0.02em] mb-3 md:mb-5 transition-all duration-700 delay-100 ease-out"
-                style={{
-                  // ZMNIEJSZONA CZCIONKA: 4.5vw zamiast 6vw, idealnie na małe laptopy
-                  fontSize: "clamp(1.8rem, 4.5vw, 5.5rem)",
-                  opacity: textVisible ? 1 : 0,
-                  transform: textVisible ? "translateY(0)" : "translateY(20px)",
-                }}
-              >
-                {slides[current].title}
-              </h1>
-
-              <p
-                className="font-poppins text-white/40 text-xs md:text-[0.95rem] leading-[1.8] max-w-md md:max-w-lg mb-4 md:mb-8 transition-all duration-700 delay-200 ease-out"
-                style={{
-                  opacity: textVisible ? 1 : 0,
-                  transform: textVisible ? "translateY(0)" : "translateY(20px)",
-                }}
-              >
-                {slides[current].description}
-              </p>
-
-              <div
-                className="flex flex-wrap items-center gap-4 transition-all duration-700 delay-300 ease-out"
-                style={{
-                  opacity: textVisible ? 1 : 0,
-                  transform: textVisible ? "translateY(0)" : "translateY(20px)",
-                }}
-              >
-                <Link
-                  href={slides[current].cta.href}
-                  className="group inline-flex items-center gap-2.5 px-6 md:px-8 py-3 md:py-4 bg-white text-black font-poppins text-[0.65rem] md:text-[0.7rem] font-semibold tracking-[0.1em] uppercase rounded-full hover:bg-[#0E7490] hover:text-white transition-all duration-300 hover:shadow-[0_15px_30px_-10px_rgba(14,116,144,0.4)]"
-                >
+                <span className="relative z-10">
                   {slides[current].cta.label}
-                  <MdArrowOutward
-                    size={14}
-                    className="transition-transform group-hover:rotate-45 duration-300"
-                  />
-                </Link>
-                <Link
-                  href="/kontakt"
-                  className="font-poppins text-white/30 hover:text-white/70 text-[0.65rem] md:text-[0.7rem] font-medium tracking-[0.08em] uppercase transition-colors duration-300 flex items-center gap-2"
-                >
-                  Wycena
-                  <MdArrowOutward size={12} />
-                </Link>
-              </div>
-            </div>
+                </span>
+                <MdArrowOutward
+                  size={16}
+                  className="relative z-10 transition-transform group-hover:rotate-45 duration-300"
+                />
+                <div className="absolute inset-0 bg-black/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+              </Link>
 
-            {/* DOLNY PASEK UI - zmniejszone marginesy i paddingi, żeby nie rozpychał sekcji */}
-            <div className="mt-6 md:mt-10">
-              <div className="inline-flex flex-row items-center gap-5 md:gap-8 bg-white/[0.03] backdrop-blur-md border border-white/[0.06] rounded-xl md:rounded-2xl px-4 py-3 md:px-6 md:py-4">
-                <div className="flex items-center gap-3">
-                  <div className="hidden sm:flex -space-x-2">
-                    {[11, 23, 37, 49].map((seed) => (
-                      <div
-                        key={seed}
-                        className="w-7 h-7 md:w-8 md:h-8 rounded-full border-2 border-black/50 overflow-hidden bg-white/10"
-                      >
-                        <img
-                          src={`https://picsum.photos/seed/face-${seed}/80/80.jpg`}
-                          alt=""
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                    ))}
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-1">
-                      {[1, 2, 3, 4, 5].map((s) => (
-                        <FaStar key={s} size={8} className="text-[#0E7490]" />
-                      ))}
-                      <span className="text-white/80 text-[0.65rem] font-bold ml-1 font-poppins">
-                        5.0
-                      </span>
-                    </div>
-                    <p className="text-white/30 text-[0.55rem] tracking-[0.15em] uppercase font-poppins hidden sm:block">
-                      +200 Zadowolonych Clientów
-                    </p>
-                  </div>
-                </div>
-
-                <div className="hidden sm:block w-px h-6 bg-white/10" />
-
-                <div className="flex items-center gap-3 md:gap-5">
-                  {slides.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => handleSlideChange(index)}
-                      className="relative flex items-center justify-center w-6 h-6 md:w-auto md:h-auto"
-                      aria-label={`Przejdź do slajdu ${index + 1}`}
-                    >
-                      <span
-                        className={`absolute block w-1 h-1 rounded-full bg-[#0E7490] transition-all duration-500 md:hidden ${
-                          index === current
-                            ? "scale-100 opacity-100"
-                            : "scale-0 opacity-0"
-                        }`}
-                      />
-                      <span
-                        className={`font-poppins text-[0.65rem] tracking-widest transition-all duration-500 hidden md:block ${
-                          index === current
-                            ? "text-white font-bold"
-                            : "text-white/20 hover:text-white/50 font-medium"
-                        }`}
-                      >
-                        0{index + 1}
-                      </span>
-                    </button>
-                  ))}
-                </div>
-              </div>
+              <Link
+                href="/kontakt"
+                className="group font-poppins text-sm font-medium tracking-[0.1em] uppercase transition-all duration-300 border-b border-white/30 hover:border-[#C5A059] pb-1 text-white/80 hover:text-white"
+                style={{
+                  borderColor: textVisible
+                    ? "rgba(255,255,255,0.3)"
+                    : "transparent",
+                }}
+              >
+                Wycena indywidualna
+              </Link>
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
-      <style jsx>{`
-        @keyframes kenBurns {
-          from {
-            transform: scale(1);
-          }
-          to {
-            transform: scale(1.08);
-          }
-        }
-        .hero-slide-active {
-          animation: kenBurns 8s ease-out forwards;
-        }
-      `}</style>
-    </>
+      <div className="absolute bottom-10 right-6 md:right-[140px] z-20 flex flex-col gap-3 items-end">
+        {slides.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => handleDotClick(index)}
+            className={`h-[2px] transition-all duration-500 ${
+              index === current
+                ? "w-12 bg-[#C5A059]"
+                : "w-6 bg-white/20 hover:bg-white/40"
+            }`}
+            aria-label={`Przejdź do slajdu ${index + 1}`}
+          />
+        ))}
+      </div>
+    </section>
   );
 }

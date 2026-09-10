@@ -11,7 +11,7 @@ const links = [
   { href: "/", label: "Start" },
   { href: "#o-nas", label: "O nas" },
   { href: "#oferta", label: "Oferta" },
-  { href: "#realizacje", label: "Realizacje" },
+  { href: "/realizacje", label: "Realizacje" },
   { href: "#kontakt", label: "Kontakt" },
 ];
 
@@ -70,9 +70,9 @@ export default function Navbar() {
               <Image
                 src="/logo.png"
                 alt="Brothers Bartenders"
-                width={180}
+                width={150}
                 height={50}
-                className={`h-12 w-auto transition-all duration-500 ${
+                className={`h-24 w-auto  transition-all duration-500 ${
                   !scrolled ? "brightness-0 invert" : ""
                 }`}
                 priority
@@ -87,7 +87,7 @@ export default function Navbar() {
                     className={`relative px-3 py-2 font-poppins text-[0.7rem] font-medium tracking-[0.04em] uppercase transition-colors duration-300 ${
                       isActive(l.href)
                         ? scrolled
-                          ? "text-[#0E7490]"
+                          ? "text-[#C5A059]"
                           : "text-white"
                         : scrolled
                           ? "text-[#666] hover:text-black"
@@ -99,7 +99,7 @@ export default function Navbar() {
                       className={`absolute bottom-0.5 left-1/2 -translate-x-1/2 h-[2px] rounded-full transition-all duration-300 ${
                         isActive(l.href)
                           ? scrolled
-                            ? "w-4 bg-[#0E7490] opacity-100"
+                            ? "w-4 bg-[#C5A059] opacity-100"
                             : "w-4 bg-white opacity-100"
                           : "w-0 opacity-0"
                       }`}
@@ -128,7 +128,7 @@ export default function Navbar() {
                     rel="noopener noreferrer"
                     className={`transition-colors duration-300 ${
                       scrolled
-                        ? "text-[#bbb] hover:text-[#0E7490]"
+                        ? "text-[#bbb] hover:text-[#b38f4e]"
                         : "text-white/40 hover:text-white"
                     }`}
                     aria-label={s.label}
@@ -145,11 +145,11 @@ export default function Navbar() {
               />
 
               <Link
-                href="/kontakt"
+                href="#kontakt"
                 className={`hidden lg:inline-flex items-center gap-2 px-6 py-2.5 font-poppins text-[0.65rem] font-semibold tracking-[0.06em] uppercase rounded-full transition-all duration-300 ${
                   scrolled
-                    ? "bg-black text-white hover:bg-[#0E7490]"
-                    : "bg-white text-black hover:bg-[#0E7490] hover:text-white"
+                    ? "bg-black text-white hover:bg-[#C5A059]"
+                    : "bg-white text-black hover:bg-[#6b5121] hover:text-white"
                 }`}
               >
                 Rezerwuj
@@ -172,8 +172,7 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* MENU MOBILNE - NAPRAWIONE */}
-      {/* MENU MOBILNE */}
+    
       <div
         className={`lg:hidden fixed inset-x-0 bottom-0 z-[45] h-[78dvh] max-h-[680px] bg-black border-t border-white/10 rounded-t-[28px] shadow-[0_-20px_60px_rgba(0,0,0,0.35)] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           open ? "translate-y-0" : "translate-y-full"
@@ -209,7 +208,7 @@ export default function Navbar() {
                   onClick={() => setOpen(false)}
                   className={`flex items-center justify-between py-3.5 font-poppins text-[1.35rem] font-medium tracking-[-0.02em] transition-all duration-300 ${
                     isActive(l.href)
-                      ? "text-[#0E7490]"
+                      ? "text-[#C5A059]"
                       : "text-white/65 hover:text-white"
                   }`}
                   style={{
@@ -237,7 +236,6 @@ export default function Navbar() {
             ))}
           </nav>
 
-          {/* dół */}
           <div
             className="pt-3 border-t border-white/10"
             style={{
@@ -266,11 +264,10 @@ export default function Navbar() {
                 ))}
               </div>
 
-              {/* CTA */}
               <Link
-                href="/kontakt"
+                href="#kontakt"
                 onClick={() => setOpen(false)}
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#0E7490] text-white font-poppins text-[0.65rem] font-semibold tracking-[0.05em] uppercase rounded-full hover:bg-[#0b6076] transition-colors duration-300"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#C5A059] text-white font-poppins text-[0.65rem] font-semibold tracking-[0.05em] uppercase rounded-full hover:bg-[#0b6076] transition-colors duration-300"
               >
                 Rezerwuj
                 <MdArrowOutward size={14} />

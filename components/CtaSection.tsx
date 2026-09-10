@@ -3,7 +3,12 @@
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { MdArrowRight, MdPhone } from "react-icons/md";
+import {
+  MdArrowRight,
+  MdPhone,
+
+} from "react-icons/md";
+import { FaFacebook, FaInstagram, FaTiktok } from "react-icons/fa";
 
 export default function CTASection() {
   const ref = useRef<HTMLElement>(null);
@@ -20,7 +25,7 @@ export default function CTASection() {
           }
         });
       },
-      { threshold: 0.2 },
+      { threshold: 0.1 },
     );
     if (ref.current) ob.observe(ref.current);
     return () => ob.disconnect();
@@ -30,102 +35,132 @@ export default function CTASection() {
     <>
       <section
         ref={ref}
-        className="relative py-28 lg:py-40 px-6 xl:px-10 overflow-hidden"
+        className="relative min-h-[600px] py-24 overflow-hidden bg-black text-white border-y border-white/5"
       >
-        <div className="absolute inset-0 scale-105 cta-bg-anim">
+        <div className="absolute inset-0 z-0 scale-110 animate-slow-pan">
           <Image
-            src="/gallery5.jpg"
-            alt=""
+            src="/hero1.jpg"
+            alt="Background"
             fill
-            className="object-cover object-center h-full w-full"
-            priority={false}
+            className="object-cover object-center w-full h-full opacity-40"
+            priority
           />
         </div>
 
-        <div className="absolute inset-0 bg-black/60" />
+        <div className="absolute inset-0 z-0 opacity-[0.05] pointer-events-none mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
 
+        <div className="absolute inset-0 z-10 bg-gradient-to-t from-black via-black/60 to-black/60" />
         <div
-          className="absolute inset-0 pointer-events-none"
+          className="absolute inset-0 z-10 pointer-events-none"
           style={{
             background:
-              "radial-gradient(ellipse at 50% -10%, rgba(14,116,144,0.2) 0%, transparent 60%)",
+              "radial-gradient(circle at 50% 50%, transparent 20%, rgba(0,0,0,0.8) 100%)",
           }}
         />
 
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(circle at 50% 50%, transparent 20%, rgba(0,0,0,0.7) 100%)",
-          }}
-        />
-
-        <div className="relative z-10 max-w-[900px] mx-auto text-center">
-          <div className="anim inline-flex items-center gap-6 justify-center mb-12">
-            <span className="w-12 h-px bg-gradient-to-r from-transparent to-[#0E7490]/50" />
-            <Image
-              src="/logo.png"
-              alt="Brothers Bartenders"
-              width={140}
-              height={40}
-              className="h-10 md:h-12 w-auto brightness-0 invert drop-shadow-[0_0_15px_rgba(14,116,144,0.3)]"
-              priority={false}
-            />
-            <span className="w-12 h-px bg-gradient-to-l from-transparent to-[#0E7490]/50" />
+        <div className="relative z-20 max-w-[1000px] mx-auto text-center px-6 h-full flex flex-col justify-center">
+          <div className="anim inline-flex items-center gap-6 justify-center mb-8 opacity-90">
+            <div className="w-12 h-px bg-gradient-to-r from-transparent to-[#C5A059]" />
+            <span className="font-sans text-[0.6rem] font-bold tracking-[0.4em] uppercase text-[#C5A059]">
+              Brothers Bartenders
+            </span>
+            <div className="w-12 h-px bg-gradient-to-l from-transparent to-[#C5A059]" />
           </div>
 
-          <h2 className="anim d1 font-serif text-4xl md:text-6xl lg:text-[4.5rem] font-bold text-white leading-[0.95] tracking-[-0.03em] mb-8">
-            Twój wieczór zaczyna się{" "}
-            <span className="relative inline-block text-[#0E7490]">
-              <span className="relative z-10">tutaj</span>
-              <span className="absolute -bottom-2 left-0 w-full h-5 bg-[#0E7490]/50 blur-[30px]" />
+          <h2 className="anim d1 font-serif text-4xl md:text-6xl font-bold leading-[1.1] mb-6 tracking-tight">
+            Twój wieczór zaczyna się <br />
+            <span className="relative inline-block text-white">
+              <span className="relative z-10 italic text-[#C5A059]">tutaj</span>
+              <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-[100%] h-6 bg-[#C5A059]/30 blur-[30px]" />
             </span>
           </h2>
 
-          <p className="anim d2 font-poppins text-white/60 text-sm md:text-base leading-[1.85] mb-12 max-w-lg mx-auto">
-            Skontaktuj się z nami i powiedz o swoich planach. Przygotowujemy
-            ofertę dopasowaną do Twoich potrzeb — odpowiadamy w 24 godziny.
+          <p className="anim d2 font-sans text-white/60 text-base md:text-lg leading-relaxed mb-8 max-w-2xl mx-auto font-light">
+            Skontaktuj się z nami, a przygotujemy ofertę, która spełni wszystkie
+            Twoje oczekiwania.
           </p>
 
-          <div className="anim d3 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="anim d3 flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
             <Link
               href="/kontakt"
-              className="group relative inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-[#0E7490] to-[#0B9AAA] text-white font-poppins text-[0.75rem] font-semibold tracking-[0.08em] uppercase rounded-full hover:shadow-[0_20px_40px_-15px_rgba(14,116,144,0.5)] hover:-translate-y-1.5 transition-all duration-500 w-full sm:w-auto justify-center overflow-hidden"
+              className="group relative inline-flex items-center gap-3 px-8 py-4 bg-[#C5A059] text-black font-sans text-xs font-bold tracking-[0.15em] uppercase rounded-sm hover:bg-white hover:text-black transition-all duration-500 w-full sm:w-auto justify-center overflow-hidden shadow-[0_0_30px_-5px_rgba(197,160,89,0.3)]"
             >
-              <span className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
-              <span className="relative z-10 flex items-center gap-3">
-                Zarezerwuj termin
-                <MdArrowRight
-                  size={18}
-                  className="transition-transform duration-300 group-hover:translate-x-1"
-                />
-              </span>
+              <span className="relative z-10">Zarezerwuj termin</span>
+              <MdArrowRight
+                size={16}
+                className="relative z-10 group-hover:translate-x-1 transition-transform"
+              />
+              <div className="absolute top-0 -left-full w-full h-full bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-12 group-hover:animate-shine"></div>
             </Link>
             <a
               href="tel:+48000000000"
-              className="group inline-flex items-center gap-3 px-8 py-5 text-white font-poppins text-[0.75rem] font-semibold tracking-[0.08em] uppercase rounded-full border border-white/10 backdrop-blur-sm hover:border-[#0E7490]/50 hover:bg-white/5 hover:-translate-y-1.5 hover:shadow-lg hover:shadow-black/20 transition-all duration-500 w-full sm:w-auto justify-center"
+              className="group inline-flex items-center gap-3 px-8 py-4 text-white font-sans text-xs font-bold tracking-[0.15em] uppercase rounded-sm border border-white/20 backdrop-blur-md hover:border-[#C5A059] hover:bg-white/5 hover:text-[#C5A059] transition-all duration-500 w-full sm:w-auto justify-center"
             >
-              <MdPhone size={16} className="text-[#0E7490]" />
-              Zadzwoń
+              <MdPhone size={16} />
+              Zadzwoń teraz
+            </a>
+          </div>
+
+          <div className="anim d4 flex items-center justify-center gap-8 border-t border-white/10 pt-6 mt-2 w-full">
+            <a
+              href="#"
+              className="group relative flex flex-col items-center gap-1"
+            >
+              <div className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center group-hover:border-[#C5A059] group-hover:bg-[#C5A059]/10 transition-all duration-300">
+                <FaInstagram
+                  size={16}
+                  className="text-white/70 group-hover:text-[#C5A059] transition-colors"
+                />
+              </div>
+            </a>
+
+            <a
+              href="#"
+              className="group relative flex flex-col items-center gap-1"
+            >
+              <div className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center group-hover:border-[#C5A059] group-hover:bg-[#C5A059]/10 transition-all duration-300">
+                <FaFacebook
+                  size={14}
+                  className="text-white/70 group-hover:text-[#C5A059] transition-colors"
+                />
+              </div>
+            </a>
+
+            <a
+              href="#"
+              className="group relative flex flex-col items-center gap-1"
+            >
+              <div className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center group-hover:border-[#C5A059] group-hover:bg-[#C5A059]/10 transition-all duration-300">
+                <FaTiktok
+                  size={16}
+                  className="text-white/70 group-hover:text-[#C5A059] transition-colors"
+                />
+              </div>
             </a>
           </div>
         </div>
       </section>
 
       <style jsx>{`
-        @keyframes slowZoom {
-          0% {
-            transform: scale(1.05);
+        @keyframes slowPan {
+          0%,
+          100% {
+            transform: scale(1.1) translate(0, 0);
           }
           50% {
-            transform: scale(1.15);
-          }
-          100% {
-            transform: scale(1.05);
+            transform: scale(1.15) translate(-1%, -1%);
           }
         }
-        .cta-bg-anim {
-          animation: slowZoom 20s ease-in-out infinite;
+        .animate-slow-pan {
+          animation: slowPan 25s ease-in-out infinite;
+        }
+        @keyframes shine {
+          100% {
+            left: 125%;
+          }
+        }
+        .group-hover\\:animate-shine:hover {
+          animation: shine 1s;
         }
       `}</style>
     </>

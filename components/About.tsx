@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 
-export default function AboutTeaser() {
+export default function About() {
   const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -11,75 +12,106 @@ export default function AboutTeaser() {
         entries.forEach((e) => {
           if (e.isIntersecting) {
             e.target
-              .querySelectorAll(".anim, .anim-left, .anim-right")
-              .forEach((el) => el.classList.add("visible"));
-
+              .querySelectorAll(".reveal")
+              .forEach((el) => el.classList.add("active"));
             ob.unobserve(e.target);
           }
         });
       },
       { threshold: 0.15 },
     );
-
-    if (ref.current) {
-      ob.observe(ref.current);
-    }
-
+    if (ref.current) ob.observe(ref.current);
     return () => ob.disconnect();
   }, []);
 
   return (
-    <section
-      id="o-nas"
-      ref={ref}
-      className="bg-white py-24 md:py-32 lg:py-40 px-6 xl:px-10"
-    >
-      <div className="max-w-[1080px] xl:max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
-        {/* ZDJĘCIE */}
-        <div className="anim-left relative max-w-md mx-auto lg:max-w-none w-full">
-          <div className="absolute -top-6 -left-6 w-32 h-32 bg-[#0E7490]/5 rounded-full blur-2xl pointer-events-none" />
+    <>
+      <style jsx global>{`
+        .reveal {
+          opacity: 0;
+          transform: translateY(20px);
+          transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        .reveal-delay-1 {
+          transition-delay: 0.1s;
+        }
+        .reveal-delay-2 {
+          transition-delay: 0.2s;
+        }
+      `}</style>
 
-          <div className="aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl shadow-black/10 relative">
-            <img
+      {/* USUNIĘTO: border-t border-white/5 dla płynnego połączenia */}
+      <section
+        id="o-nas"
+        ref={ref}
+        className="relative bg-[#050505] text-white py-12 md:py-20 px-6 md:px-12 lg:px-24 overflow-hidden"
+      >
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#C5A059]/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-[#C5A059]/5 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center relative z-10">
+          <div className="reveal relative aspect-[4/5] lg:aspect-[3/4] w-full rounded-sm overflow-hidden border border-white/5">
+            <Image
               src="/about.jpg"
-              alt="Bracia barmani"
-              className="w-full h-full object-cover"
-              loading="lazy"
+              alt="Brothers Bartenders"
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover transition-all duration-1000 grayscale opacity-80 hover:grayscale-0 hover:opacity-100 hover:scale-105"
+              priority
             />
 
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
+            <div className="absolute bottom-6 left-6 bg-black/60 backdrop-blur-md border border-[#C5A059]/30 px-6 py-4 rounded-lg shadow-2xl">
+              <span className="block text-[#C5A059] text-3xl font-serif font-bold leading-none">
+                7+
+              </span>
+              <span className="text-gray-300 text-[10px] uppercase tracking-widest font-bold mt-1 block">
+                Lat doświadczenia
+              </span>
+            </div>
+          </div>
+
+          <div className="flex flex-col justify-center">
+            <div className="reveal reveal-delay-1 mb-8">
+              <span className="text-[#C5A059] text-xs font-bold tracking-[0.3em] uppercase mb-4 block">
+                O nas
+              </span>
+              <h2 className="font-serif text-4xl md:text-6xl font-bold text-white leading-[1.1]">
+                Bracia.
+                <br />
+                <span className="text-gray-500 italic font-light">
+                  Jedna pasja.
+                </span>
+              </h2>
+            </div>
+
+            <div className="space-y-4 text-gray-400 text-sm md:text-lg leading-relaxed reveal reveal-delay-2">
+              <p>
+                Jesteśmy braćmi, których połączyła miłość do barmaństwa.
+                Tworzymy klimat, o którym się mówi – od wesel po ekskluzywne
+                eventy.
+              </p>
+              <p>
+                Nie robimy show na pokaz. Robimy prawdziwe koktaile z
+                najlepszych składników i dobrą zabawą, którą zapamiętacie.
+              </p>
+            </div>
+
+            <div className="mt-10 pt-8 border-t border-white/10 reveal reveal-delay-2">
+              <div className="flex flex-wrap gap-4 text-[9px] md:text-sm font-bold uppercase tracking-widest  text-gray-500">
+                <span className="text-[#C5A059]">Profesjonalizm</span>
+                <span className="text-white/20">/</span>
+                <span className="text-[#C5A059]">Pasja</span>
+                <span className="text-white/20">/</span>
+                <span className="text-[#C5A059]">Doświadczenie</span>
+              </div>
+            </div>
           </div>
         </div>
-
-        {/* TREŚĆ */}
-        <div className="w-full">
-          <span className="anim inline-flex items-center gap-2 font-poppins text-[0.65rem] font-semibold tracking-[0.2em] uppercase text-[#0E7490]/80 mb-6">
-            <span className="w-5 h-px bg-[#0E7490]/40" />
-            Kim jesteśmy
-          </span>
-
-          <h2 className="anim d1 font-serif text-4xl md:text-5xl lg:text-[3.4rem] font-bold leading-[1.05] text-black mb-8 tracking-tight">
-            Bracia,
-            <br />
-            <span className="text-[#0E7490]">jedna pasja</span>
-          </h2>
-
-          <div className="space-y-6">
-            <p className="anim d2 font-poppins text-gray-500 text-[0.95rem] md:text-[1.05rem] leading-[1.85]">
-              Jesteśmy braćmi, których połączyła pasja do tworzenia wyjątkowych
-              koktajli i pracy za barem. Dziś tworzymy mobilny bar, który
-              pojawia się na weselach, eventach firmowych i prywatnych
-              przyjęciach.
-            </p>
-
-            <p className="anim d3 font-poppins text-gray-500 text-[0.95rem] md:text-[1.05rem] leading-[1.85]">
-              Stawiamy na dobrą atmosferę, profesjonalną obsługę i dopracowane
-              koktajle. Do każdego wydarzenia podchodzimy indywidualnie, dbając
-              o to, żeby bar był czymś więcej niż tylko miejscem z drinkami.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

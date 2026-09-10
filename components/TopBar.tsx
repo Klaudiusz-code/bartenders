@@ -31,7 +31,7 @@ export default function Topbar() {
             href="tel:+48000000000"
             className="flex items-center gap-2 text-white/50 hover:text-white font-poppins text-[0.65rem] tracking-wide transition-colors duration-300"
           >
-            <MdPhone size={13} className="text-[#0E7490]" />
+            <MdPhone size={13} className="text-[#C5A059]" />
             +48 000 000 000
           </a>
           <span className="w-px h-3 bg-white/10" />
@@ -39,7 +39,7 @@ export default function Topbar() {
             href="mailto:kontakt@brothersbartenders.pl"
             className="flex items-center gap-2 text-white/50 hover:text-white font-poppins text-[0.65rem] tracking-wide transition-colors duration-300"
           >
-            <MdEmail size={13} className="text-[#0E7490]" />
+            <MdEmail size={13} className="text-[#C5A059]" />
             kontakt@brothersbartenders.pl
           </a>
         </div>
