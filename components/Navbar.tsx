@@ -9,10 +9,10 @@ import { FaInstagram, FaFacebookF, FaTiktok } from "react-icons/fa";
 
 const links = [
   { href: "/", label: "Start" },
-  { href: "#o-nas", label: "O nas" },
-  { href: "#oferta", label: "Oferta" },
+  { href: "/#o-nas", label: "O nas" },
+  { href: "/#oferta", label: "Oferta" },
   { href: "/realizacje", label: "Realizacje" },
-  { href: "#kontakt", label: "Kontakt" },
+  { href: "/#kontakt", label: "Kontakt" },
 ];
 
 const socials = [
@@ -21,17 +21,43 @@ const socials = [
   { href: "#", icon: FaTiktok, label: "TikTok" },
 ];
 
-export default function Navbar() {
+interface NavbarProps {
+  logoUrl?: string;
+  settings?: {
+    instagram?: string;
+    facebook?: string;
+    tiktok?: string;
+  };
+}
+
+export default function Navbar({ logoUrl, settings }: NavbarProps) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
+  // Stan do przechowywania obecnego hash'a (np. #kontakt), dostępny tylko po stronie klienta
+  const [currentHash, setCurrentHash] = useState("");
+
+  // Efekt uruchamiany tylko w przeglądarce (useEffect)
+  useEffect(() => {
+    // Ustaw hash przy pierwszym załadowaniu
+    setCurrentHash(window.location.hash);
+
+    // Nasłuchuj zmiany hasha (np. przy kliknięciu w link lub przewijaniu)
+    const handleHashChange = () => setCurrentHash(window.location.hash);
+
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
+
+  // Obsługa scrollu
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", fn, { passive: true });
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
+  // Blokowanie scrollu przy otwartym menu
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => {
@@ -39,10 +65,12 @@ export default function Navbar() {
     };
   }, [open]);
 
+  // Zamykanie menu przy zmianie ścieżki
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
 
+  // Zamykanie menu na Escape
   const onEsc = useCallback((e: KeyboardEvent) => {
     if (e.key === "Escape") setOpen(false);
   }, []);
@@ -52,8 +80,20 @@ export default function Navbar() {
     return () => window.removeEventListener("keydown", onEsc);
   }, [onEsc]);
 
-  const isActive = (href: string) =>
-    href === "/" ? pathname === "/" : pathname.startsWith(href);
+  // Funkcja sprawdzająca aktywność linku (bezpieczna dla SSR)
+  const isActive = (href: string) => {
+    // Jeśli link zawiera hash (np. /#o-nas)
+    if (href.includes("#")) {
+      const [path, linkHash] = href.split("#");
+      // Sprawdzamy czy jesteśmy na dobrej podstronie
+      if (pathname !== path) return false;
+      // Sprawdzamy czy hash się zgadza
+      if (!linkHash) return true;
+      return `#${linkHash}` === currentHash;
+    }
+    // Dla zwykłych linków
+    return href === "/" ? pathname === "/" : pathname.startsWith(href);
+  };
 
   return (
     <>
@@ -68,7 +108,7 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-[72px]">
             <Link href="/" className="relative z-10 shrink-0">
               <Image
-                src="/logo.png"
+                src={logoUrl || "/logo.png"}
                 alt="Brothers Bartenders"
                 width={150}
                 height={50}
@@ -120,22 +160,55 @@ export default function Navbar() {
 
             <div className="flex items-center gap-4 shrink-0">
               <div className="hidden lg:flex items-center gap-2.5">
-                {socials.map((s) => (
-                  <a
-                    key={s.label}
-                    href={s.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`transition-colors duration-300 ${
-                      scrolled
-                        ? "text-[#bbb] hover:text-[#b38f4e]"
-                        : "text-white/40 hover:text-white"
-                    }`}
-                    aria-label={s.label}
-                  >
-                    <s.icon size={13} />
-                  </a>
-                ))}
+                {settings
+                  ? [
+                      {
+                        href: settings.instagram || "#",
+                        icon: FaInstagram,
+                        label: "Instagram",
+                      },
+                      {
+                        href: settings.facebook || "#",
+                        icon: FaFacebookF,
+                        label: "Facebook",
+                      },
+                      {
+                        href: settings.tiktok || "#",
+                        icon: FaTiktok,
+                        label: "TikTok",
+                      },
+                    ].map((s) => (
+                      <a
+                        key={s.label}
+                        href={s.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`transition-colors duration-300 ${
+                          scrolled
+                            ? "text-[#bbb] hover:text-[#b38f4e]"
+                            : "text-white/40 hover:text-white"
+                        }`}
+                        aria-label={s.label}
+                      >
+                        <s.icon size={13} />
+                      </a>
+                    ))
+                  : socials.map((s) => (
+                      <a
+                        key={s.label}
+                        href={s.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`transition-colors duration-300 ${
+                          scrolled
+                            ? "text-[#bbb] hover:text-[#b38f4e]"
+                            : "text-white/40 hover:text-white"
+                        }`}
+                        aria-label={s.label}
+                      >
+                        <s.icon size={13} />
+                      </a>
+                    ))}
               </div>
 
               <div
@@ -145,7 +218,7 @@ export default function Navbar() {
               />
 
               <Link
-                href="#kontakt"
+                href="/#kontakt"
                 className={`hidden lg:inline-flex items-center gap-2 px-6 py-2.5 font-poppins text-[0.65rem] font-semibold tracking-[0.06em] uppercase rounded-full transition-all duration-300 ${
                   scrolled
                     ? "bg-black text-white hover:bg-[#C5A059]"
@@ -172,19 +245,17 @@ export default function Navbar() {
         </div>
       </header>
 
-    
+      {/* MOBILE MENU OVERLAY */}
       <div
         className={`lg:hidden fixed inset-x-0 bottom-0 z-[45] h-[78dvh] max-h-[680px] bg-black border-t border-white/10 rounded-t-[28px] shadow-[0_-20px_60px_rgba(0,0,0,0.35)] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           open ? "translate-y-0" : "translate-y-full"
         }`}
       >
         <div className="h-full max-w-[520px] mx-auto px-5 pt-4 pb-[max(16px,env(safe-area-inset-bottom))] flex flex-col">
-          {/* uchwyt */}
           <div className="flex justify-center mb-3">
             <span className="w-9 h-1 rounded-full bg-white/15" />
           </div>
 
-          {/* header */}
           <div className="flex items-center justify-between mb-2">
             <span className="font-poppins text-[10px] uppercase tracking-[0.16em] text-white/30">
               Menu
@@ -199,7 +270,6 @@ export default function Navbar() {
             </button>
           </div>
 
-          {/* nawigacja */}
           <nav className="flex-1 overflow-y-auto py-2 scrollbar-hide">
             {links.map((l, i) => (
               <Fragment key={l.href}>
@@ -248,24 +318,52 @@ export default function Navbar() {
             }}
           >
             <div className="flex items-center justify-between gap-4">
-              {/* social media */}
               <div className="flex items-center gap-4">
-                {socials.map((s) => (
-                  <a
-                    key={s.label}
-                    href={s.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-8 h-8 flex items-center justify-center rounded-full border border-white/10 text-white/40 hover:text-white hover:border-white/25 transition-all duration-300"
-                    aria-label={s.label}
-                  >
-                    <s.icon size={14} />
-                  </a>
-                ))}
+                {settings
+                  ? [
+                      {
+                        href: settings.instagram || "#",
+                        icon: FaInstagram,
+                        label: "Instagram",
+                      },
+                      {
+                        href: settings.facebook || "#",
+                        icon: FaFacebookF,
+                        label: "Facebook",
+                      },
+                      {
+                        href: settings.tiktok || "#",
+                        icon: FaTiktok,
+                        label: "TikTok",
+                      },
+                    ].map((s) => (
+                      <a
+                        key={s.label}
+                        href={s.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-8 h-8 flex items-center justify-center rounded-full border border-white/10 text-white/40 hover:text-white hover:border-white/25 transition-all duration-300"
+                        aria-label={s.label}
+                      >
+                        <s.icon size={14} />
+                      </a>
+                    ))
+                  : socials.map((s) => (
+                      <a
+                        key={s.label}
+                        href={s.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-8 h-8 flex items-center justify-center rounded-full border border-white/10 text-white/40 hover:text-white hover:border-white/25 transition-all duration-300"
+                        aria-label={s.label}
+                      >
+                        <s.icon size={14} />
+                      </a>
+                    ))}
               </div>
 
               <Link
-                href="#kontakt"
+                href="/#kontakt"
                 onClick={() => setOpen(false)}
                 className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#C5A059] text-white font-poppins text-[0.65rem] font-semibold tracking-[0.05em] uppercase rounded-full hover:bg-[#0b6076] transition-colors duration-300"
               >

@@ -2,15 +2,20 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import {
-  MdArrowRight,
-  MdPhone,
-
-} from "react-icons/md";
+import { MdArrowRight, MdPhone } from "react-icons/md";
 import { FaFacebook, FaInstagram, FaTiktok } from "react-icons/fa";
 
-export default function CTASection() {
+interface CTASectionProps {
+  data: any;
+  settings?: {
+    phoneNumber?: string;
+    instagram?: string;
+    facebook?: string;
+    tiktok?: string;
+  };
+}
+
+export default function CTASection({ data, settings }: CTASectionProps) {
   const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -20,7 +25,7 @@ export default function CTASection() {
           if (e.isIntersecting) {
             e.target
               .querySelectorAll(".anim")
-              .forEach((el) => el.classList.add("visible"));
+              .forEach((el: any) => el.classList.add("visible"));
             ob.unobserve(e.target);
           }
         });
@@ -29,7 +34,15 @@ export default function CTASection() {
     );
     if (ref.current) ob.observe(ref.current);
     return () => ob.disconnect();
-  }, []);
+  }, [data]);
+
+  if (!data) return null;
+
+  const socials = [
+    { href: settings?.instagram || "#", icon: FaInstagram },
+    { href: settings?.facebook || "#", icon: FaFacebook },
+    { href: settings?.tiktok || "#", icon: FaTiktok },
+  ];
 
   return (
     <>
@@ -38,12 +51,10 @@ export default function CTASection() {
         className="relative min-h-[600px] py-24 overflow-hidden bg-black text-white border-y border-white/5"
       >
         <div className="absolute inset-0 z-0 scale-110 animate-slow-pan">
-          <Image
-            src="/hero1.jpg"
+          <img
+            src={data.imageCta?.node.sourceUrl || "/hero1.jpg"}
             alt="Background"
-            fill
             className="object-cover object-center w-full h-full opacity-40"
-            priority
           />
         </div>
 
@@ -68,16 +79,11 @@ export default function CTASection() {
           </div>
 
           <h2 className="anim d1 font-serif text-4xl md:text-6xl font-bold leading-[1.1] mb-6 tracking-tight">
-            Twój wieczór zaczyna się <br />
-            <span className="relative inline-block text-white">
-              <span className="relative z-10 italic text-[#C5A059]">tutaj</span>
-              <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-[100%] h-6 bg-[#C5A059]/30 blur-[30px]" />
-            </span>
+            {data.titleCta}
           </h2>
 
           <p className="anim d2 font-sans text-white/60 text-base md:text-lg leading-relaxed mb-8 max-w-2xl mx-auto font-light">
-            Skontaktuj się z nami, a przygotujemy ofertę, która spełni wszystkie
-            Twoje oczekiwania.
+            {data.descriptionCta}
           </p>
 
           <div className="anim d3 flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
@@ -93,7 +99,7 @@ export default function CTASection() {
               <div className="absolute top-0 -left-full w-full h-full bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-12 group-hover:animate-shine"></div>
             </Link>
             <a
-              href="tel:+48000000000"
+              href={`tel:${settings?.phoneNumber || ""}`}
               className="group inline-flex items-center gap-3 px-8 py-4 text-white font-sans text-xs font-bold tracking-[0.15em] uppercase rounded-sm border border-white/20 backdrop-blur-md hover:border-[#C5A059] hover:bg-white/5 hover:text-[#C5A059] transition-all duration-500 w-full sm:w-auto justify-center"
             >
               <MdPhone size={16} />
@@ -102,41 +108,22 @@ export default function CTASection() {
           </div>
 
           <div className="anim d4 flex items-center justify-center gap-8 border-t border-white/10 pt-6 mt-2 w-full">
-            <a
-              href="#"
-              className="group relative flex flex-col items-center gap-1"
-            >
-              <div className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center group-hover:border-[#C5A059] group-hover:bg-[#C5A059]/10 transition-all duration-300">
-                <FaInstagram
-                  size={16}
-                  className="text-white/70 group-hover:text-[#C5A059] transition-colors"
-                />
-              </div>
-            </a>
-
-            <a
-              href="#"
-              className="group relative flex flex-col items-center gap-1"
-            >
-              <div className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center group-hover:border-[#C5A059] group-hover:bg-[#C5A059]/10 transition-all duration-300">
-                <FaFacebook
-                  size={14}
-                  className="text-white/70 group-hover:text-[#C5A059] transition-colors"
-                />
-              </div>
-            </a>
-
-            <a
-              href="#"
-              className="group relative flex flex-col items-center gap-1"
-            >
-              <div className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center group-hover:border-[#C5A059] group-hover:bg-[#C5A059]/10 transition-all duration-300">
-                <FaTiktok
-                  size={16}
-                  className="text-white/70 group-hover:text-[#C5A059] transition-colors"
-                />
-              </div>
-            </a>
+            {socials.map((s, i) => (
+              <a
+                key={i}
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative flex flex-col items-center gap-1"
+              >
+                <div className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center group-hover:border-[#C5A059] group-hover:bg-[#C5A059]/10 transition-all duration-300">
+                  <s.icon
+                    size={16}
+                    className="text-white/70 group-hover:text-[#C5A059] transition-colors"
+                  />
+                </div>
+              </a>
+            ))}
           </div>
         </div>
       </section>

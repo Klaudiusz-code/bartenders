@@ -9,18 +9,29 @@ const navLinks = [
   { href: "/", label: "Start" },
   { href: "#o-nas", label: "O nas" },
   { href: "#oferta", label: "Oferta" },
-  { href: "#realizacje", label: "Realizacje" },
+  { href: "/realizacje", label: "Realizacje" },
   { href: "#kontakt", label: "Kontakt" },
 ];
 
-export default function Footer() {
+interface FooterProps {
+  settings?: {
+    logo?: { node: { sourceUrl: string } };
+    email?: string;
+    phoneNumber?: string;
+    instagram?: string;
+    facebook?: string;
+    tiktok?: string;
+  };
+}
+
+export default function Footer({ settings }: FooterProps) {
   return (
     <footer className="bg-black border-t border-white/[0.08]">
       <div className="max-w-[1080px] xl:max-w-[1400px] mx-auto px-6 xl:px-10 pt-16 lg:pt-20 pb-8">
         <div className="flex flex-col items-center text-center pb-12 border-b border-white/[0.08]">
           <Link href="/" className="shrink-0 mb-8">
             <Image
-              src="/logo.png"
+              src={settings?.logo?.node.sourceUrl || "/logo.png"}
               alt="Brothers Bartenders"
               width={300}
               height={85}
@@ -31,7 +42,7 @@ export default function Footer() {
 
           <div className="flex items-center gap-5">
             <a
-              href="#"
+              href={settings?.instagram || "#"}
               target="_blank"
               rel="noopener noreferrer"
               className="text-white/40 hover:text-[#C5A059] transition-colors duration-300"
@@ -39,7 +50,7 @@ export default function Footer() {
               <FaInstagram size={18} />
             </a>
             <a
-              href="#"
+              href={settings?.facebook || "#"}
               target="_blank"
               rel="noopener noreferrer"
               className="text-white/40 hover:text-[#C5A059] transition-colors duration-300"
@@ -47,7 +58,7 @@ export default function Footer() {
               <FaFacebookF size={16} />
             </a>
             <a
-              href="#"
+              href={settings?.tiktok || "#"}
               target="_blank"
               rel="noopener noreferrer"
               className="text-white/40 hover:text-[#C5A059] transition-colors duration-300"
@@ -83,23 +94,23 @@ export default function Footer() {
             <ul className="space-y-4">
               <li>
                 <a
-                  href="mailto:kontakt@brothersbartenders.pl"
+                  href={`mailto:${settings?.email || ""}`}
                   className="flex items-start gap-3 text-white/50 text-sm hover:text-[#C5A059] transition-colors duration-300"
                 >
                   <MdEmail
                     size={16}
                     className="text-[#C5A059] mt-0.5 shrink-0"
                   />
-                  kontakt@brothersbartenders.pl
+                  {settings?.email || "kontakt@brothersbartenders.pl"}
                 </a>
               </li>
               <li>
                 <a
-                  href="tel:+48000000000"
+                  href={`tel:${settings?.phoneNumber || ""}`}
                   className="flex items-center gap-3 text-white/50 text-sm hover:text-[#C5A059] transition-colors duration-300"
                 >
                   <MdPhone size={15} className="text-[#C5A059] shrink-0" />
-                  +48 000 000 000
+                  {settings?.phoneNumber || "+48 000 000 000"}
                 </a>
               </li>
             </ul>

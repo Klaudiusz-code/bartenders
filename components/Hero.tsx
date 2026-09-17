@@ -4,34 +4,11 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { MdArrowOutward, MdChevronLeft, MdChevronRight } from "react-icons/md";
 
-// Zmieniliśmy złoty na bardziej stonowany, elegancki odcień: #C5A059
 const GOLD_COLOR = "#C5A059";
 
-const slides = [
-  {
-    img: "hero1.jpg",
-    title: "Brothers Bartenders",
-    description:
-      "Elegancja, smak i show. Organizujemy mobilne bary koktajlowe, które definiują styl każdego wielkiego wydarzenia.",
-    cta: { label: "Sprawdź ofertę", href: "#oferta" },
-  },
-  {
-    img: "gallery8.jpg",
-    title: "Smak, który łączy ludzi",
-    description:
-      "Barmańskie doświadczenie na najwyższym poziomie. Autorskie menu i show, które na długo zapada w pamięć.",
-    cta: { label: "Zobacz realizacje", href: "#realizacje" },
-  },
-  {
-    img: "gallery5.jpg",
-    title: "Koktajle jak sztuka",
-    description:
-      "Ogień, dym i techniczna perfekcja. Drinki, które zachwycają wizualnie i wybuchają smakiem.",
-    cta: { label: "Poznaj nas", href: "#o-nas" },
-  },
-];
+export default function Hero({ data }: { data: any[] }) {
+  const slides = data || [];
 
-export default function Hero() {
   const [current, setCurrent] = useState(0);
   const [textVisible, setTextVisible] = useState(true);
 
@@ -43,7 +20,7 @@ export default function Hero() {
   }, [current]);
 
   const nextSlide = () => {
-    if (!textVisible) return;
+    if (!textVisible || slides.length === 0) return;
     setTextVisible(false);
     setTimeout(() => {
       setCurrent((prev) => (prev + 1) % slides.length);
@@ -52,7 +29,7 @@ export default function Hero() {
   };
 
   const prevSlide = () => {
-    if (!textVisible) return;
+    if (!textVisible || slides.length === 0) return;
     setTextVisible(false);
     setTimeout(() => {
       setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
@@ -69,6 +46,8 @@ export default function Hero() {
     }, 700);
   };
 
+  if (slides.length === 0) return null;
+
   return (
     <section className="relative h-screen w-full overflow-hidden bg-black">
       {slides.map((slide, index) => (
@@ -79,8 +58,8 @@ export default function Hero() {
           }`}
         >
           <img
-            src={slide.img}
-            alt={slide.title}
+            src={slide.heroSliderImage.node.sourceUrl}
+            alt={slide.heroSliderTitle}
             className={`w-full h-full object-cover transition-transform duration-[12000ms] ease-linear ${
               index === current ? "scale-105" : "scale-100"
             }`}
@@ -89,7 +68,7 @@ export default function Hero() {
         </div>
       ))}
 
-      {/* Gradients - dostosowane do płynnego przejścia w About */}
+      {/* Gradients */}
       <div className="absolute inset-0 z-[1] bg-gradient-to-t from-[#050505] via-black/40 to-black/60" />
       <div className="absolute inset-0 z-[1] pointer-events-none bg-gradient-to-r from-black/80 via-transparent to-transparent" />
 
@@ -126,7 +105,7 @@ export default function Hero() {
                 transform: textVisible ? "translateY(0)" : "translateY(40px)",
               }}
             >
-              {slides[current].title}
+              {slides[current].heroSliderTitle}
             </h1>
 
             <p
@@ -137,7 +116,7 @@ export default function Hero() {
                 transform: textVisible ? "translateY(0)" : "translateY(40px)",
               }}
             >
-              {slides[current].description}
+              {slides[current].heroSliderDescription}
             </p>
 
             <div
@@ -148,12 +127,10 @@ export default function Hero() {
               }}
             >
               <Link
-                href={slides[current].cta.href}
+                href="#oferta"
                 className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-black font-poppins text-xs md:text-sm font-bold tracking-[0.15em] uppercase rounded-sm hover:bg-[#C5A059] hover:text-white transition-all duration-500 relative overflow-hidden"
               >
-                <span className="relative z-10">
-                  {slides[current].cta.label}
-                </span>
+                <span className="relative z-10">Sprawdź ofertę</span>
                 <MdArrowOutward
                   size={16}
                   className="relative z-10 transition-transform group-hover:rotate-45 duration-300"
@@ -164,11 +141,6 @@ export default function Hero() {
               <Link
                 href="/kontakt"
                 className="group font-poppins text-sm font-medium tracking-[0.1em] uppercase transition-all duration-300 border-b border-white/30 hover:border-[#C5A059] pb-1 text-white/80 hover:text-white"
-                style={{
-                  borderColor: textVisible
-                    ? "rgba(255,255,255,0.3)"
-                    : "transparent",
-                }}
               >
                 Wycena indywidualna
               </Link>

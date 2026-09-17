@@ -4,13 +4,17 @@ import { useState, useEffect } from "react";
 import { FaInstagram, FaFacebookF, FaTiktok } from "react-icons/fa";
 import { MdPhone, MdEmail } from "react-icons/md";
 
-const socials = [
-  { href: "#", icon: FaInstagram, label: "Instagram" },
-  { href: "#", icon: FaFacebookF, label: "Facebook" },
-  { href: "#", icon: FaTiktok, label: "TikTok" },
-];
+interface TopbarProps {
+  settings?: {
+    phoneNumber?: string;
+    email?: string;
+    instagram?: string;
+    facebook?: string;
+    tiktok?: string;
+  };
+}
 
-export default function Topbar() {
+export default function Topbar({ settings }: TopbarProps) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -18,6 +22,12 @@ export default function Topbar() {
     window.addEventListener("scroll", fn, { passive: true });
     return () => window.removeEventListener("scroll", fn);
   }, []);
+
+  const socials = [
+    { href: settings?.instagram || "#", icon: FaInstagram, label: "Instagram" },
+    { href: settings?.facebook || "#", icon: FaFacebookF, label: "Facebook" },
+    { href: settings?.tiktok || "#", icon: FaTiktok, label: "TikTok" },
+  ];
 
   return (
     <div
@@ -28,19 +38,19 @@ export default function Topbar() {
       <div className="max-w-[1080px] xl:max-w-[1400px] mx-auto px-6 xl:px-10 h-10 flex items-center justify-between">
         <div className="flex items-center gap-6">
           <a
-            href="tel:+48000000000"
+            href={`tel:${settings?.phoneNumber || ""}`}
             className="flex items-center gap-2 text-white/50 hover:text-white font-poppins text-[0.65rem] tracking-wide transition-colors duration-300"
           >
             <MdPhone size={13} className="text-[#C5A059]" />
-            +48 000 000 000
+            {settings?.phoneNumber || "+48 000 000 000"}
           </a>
           <span className="w-px h-3 bg-white/10" />
           <a
-            href="mailto:kontakt@brothersbartenders.pl"
+            href={`mailto:${settings?.email || ""}`}
             className="flex items-center gap-2 text-white/50 hover:text-white font-poppins text-[0.65rem] tracking-wide transition-colors duration-300"
           >
             <MdEmail size={13} className="text-[#C5A059]" />
-            kontakt@brothersbartenders.pl
+            {settings?.email || "kontakt@brothersbartenders.pl"}
           </a>
         </div>
         <div className="flex items-center gap-4">

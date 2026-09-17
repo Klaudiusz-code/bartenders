@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 
-export default function About() {
+export default function About({ data }: { data: any }) {
   const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -13,7 +13,7 @@ export default function About() {
           if (e.isIntersecting) {
             e.target
               .querySelectorAll(".reveal")
-              .forEach((el) => el.classList.add("active"));
+              .forEach((el: any) => el.classList.add("active"));
             ob.unobserve(e.target);
           }
         });
@@ -22,7 +22,9 @@ export default function About() {
     );
     if (ref.current) ob.observe(ref.current);
     return () => ob.disconnect();
-  }, []);
+  }, [data]);
+
+  if (!data) return null;
 
   return (
     <>
@@ -44,7 +46,6 @@ export default function About() {
         }
       `}</style>
 
-      {/* USUNIĘTO: border-t border-white/5 dla płynnego połączenia */}
       <section
         id="o-nas"
         ref={ref}
@@ -55,18 +56,17 @@ export default function About() {
 
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center relative z-10">
           <div className="reveal relative aspect-[4/5] lg:aspect-[3/4] w-full rounded-sm overflow-hidden border border-white/5">
-            <Image
-              src="/about.jpg"
+            {/* Używam img dla bezpieczeństwa URL, można zamienić na Next/Image z src={data.imageAbout.node.sourceUrl} */}
+            <img
+              src={data.imageAbout?.node.sourceUrl || "/about.jpg"}
               alt="Brothers Bartenders"
-              fill
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover transition-all duration-1000 grayscale opacity-80 hover:grayscale-0 hover:opacity-100 hover:scale-105"
-              priority
+              className="w-full h-full object-cover transition-all duration-1000 grayscale opacity-80 hover:grayscale-0 hover:opacity-100 hover:scale-105"
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
 
             <div className="absolute bottom-6 left-6 bg-black/60 backdrop-blur-md border border-[#C5A059]/30 px-6 py-4 rounded-lg shadow-2xl">
               <span className="block text-[#C5A059] text-3xl font-serif font-bold leading-none">
-                7+
+                {data.aboutExperienceNumber}+
               </span>
               <span className="text-gray-300 text-[10px] uppercase tracking-widest font-bold mt-1 block">
                 Lat doświadczenia
@@ -80,33 +80,26 @@ export default function About() {
                 O nas
               </span>
               <h2 className="font-serif text-4xl md:text-6xl font-bold text-white leading-[1.1]">
-                Bracia.
-                <br />
-                <span className="text-gray-500 italic font-light">
-                  Jedna pasja.
-                </span>
+                {data.titleAbout}
               </h2>
             </div>
 
             <div className="space-y-4 text-gray-400 text-sm md:text-lg leading-relaxed reveal reveal-delay-2">
-              <p>
-                Jesteśmy braćmi, których połączyła miłość do barmaństwa.
-                Tworzymy klimat, o którym się mówi – od wesel po ekskluzywne
-                eventy.
-              </p>
-              <p>
-                Nie robimy show na pokaz. Robimy prawdziwe koktaile z
-                najlepszych składników i dobrą zabawą, którą zapamiętacie.
-              </p>
+              <p>{data.aboutAkapit1}</p>
+              <p>{data.aboutAkapit2}</p>
             </div>
 
             <div className="mt-10 pt-8 border-t border-white/10 reveal reveal-delay-2">
-              <div className="flex flex-wrap gap-4 text-[9px] md:text-sm font-bold uppercase tracking-widest  text-gray-500">
-                <span className="text-[#C5A059]">Profesjonalizm</span>
-                <span className="text-white/20">/</span>
-                <span className="text-[#C5A059]">Pasja</span>
-                <span className="text-white/20">/</span>
-                <span className="text-[#C5A059]">Doświadczenie</span>
+              <div className="flex flex-wrap gap-4 text-[9px] md:text-sm font-bold uppercase tracking-widest text-gray-500">
+                {data.aboutFeatures &&
+                  data.aboutFeatures.map((feat: any, i: number) => (
+                    <span key={i} className={i > 0 ? "ml-2" : ""}>
+                      {i > 0 && <span className="text-white/20 mx-2">/</span>}
+                      <span className="text-[#C5A059]">
+                        {feat.nameFeatures}
+                      </span>
+                    </span>
+                  ))}
               </div>
             </div>
           </div>
