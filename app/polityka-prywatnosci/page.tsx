@@ -17,7 +17,7 @@ const GET_PAGE_QUERY = `  query GetPage($uri: ID!) {
   }`;
 
 async function getPage(uri: string) {
-  const res = await fetch("http://146.59.63.145/graphql", {
+  const res = await fetch("https://brothers-bartenders.pl/graphql", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

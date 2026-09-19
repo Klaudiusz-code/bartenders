@@ -4,8 +4,8 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "http",
-        hostname: "146.59.63.145",
+        protocol: "https",
+        hostname: "brothers-bartenders.pl",
         pathname: "/wp-content/uploads/**",
       },
     ],

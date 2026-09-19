@@ -62,7 +62,7 @@ query GetRealizacjePageWithSettings {
 `;
 
 async function getData() {
-  const res = await fetch("http://146.59.63.145/graphql", {
+  const res = await fetch("https://brothers-bartenders.pl/graphql", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     next: { revalidate: 60 },
