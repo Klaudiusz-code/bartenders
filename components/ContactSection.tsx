@@ -19,6 +19,7 @@ interface ContactSectionProps {
   };
 }
 
+// Endpoint dostarczony przez klienta
 const CRM_ENDPOINT =
   "https://script.google.com/macros/s/AKfycbwiIwBmOeIrTMAuSaI-hFM4L0DWckpW5vW09wgslRvGE-miSwAAm_E6hCNgfXggKqX3/exec";
 
@@ -39,6 +40,7 @@ export default function ContactSection({
     const form = e.currentTarget;
     const formData = new FormData(form);
 
+    // Budowanie obiektu payload zgodnie z dokumentacją klienta
     const payload = {
       name: String(formData.get("name") || ""),
       email: String(formData.get("email") || ""),
@@ -52,17 +54,15 @@ export default function ContactSection({
     };
 
     try {
-      const response = await fetch(CRM_ENDPOINT, {
+      // Używamy mode: "no-cors", aby ominąć blokadę CORS przy zapytaniu do Google Apps Script.
+      await fetch(CRM_ENDPOINT, {
         method: "POST",
+        mode: "no-cors",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(payload),
       });
-
-      if (!response.ok) {
-        throw new Error("Nie udało się wysłać formularza.");
-      }
 
       setIsSuccess(true);
       form.reset();
@@ -212,7 +212,7 @@ export default function ContactSection({
                         type="text"
                         name="name"
                         required
-                        placeholder="Jan Kowalski"
+                        placeholder="Jan Rzepka"
                         className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-neutral-900 placeholder-gray-400 focus:border-[#C5A059] focus:ring-2 focus:ring-[#C5A059]/10 outline-none transition-all text-sm"
                       />
                     </div>
@@ -226,7 +226,7 @@ export default function ContactSection({
                         type="email"
                         name="email"
                         required
-                        placeholder="jan@email.com"
+                        placeholder="jan@example.com"
                         className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-neutral-900 placeholder-gray-400 focus:border-[#C5A059] focus:ring-2 focus:ring-[#C5A059]/10 outline-none transition-all text-sm"
                       />
                     </div>
@@ -267,10 +267,10 @@ export default function ContactSection({
                           <option value="" disabled>
                             Wybierz typ...
                           </option>
-
+                          {/* Dynamiczne pobieranie typów z WordPressa */}
                           {data.eventTypes &&
-                            data.eventTypes.map((type: any, i: number) => (
-                              <option key={i} value={type.nameParty}>
+                            data.eventTypes.map((type: any, index: number) => (
+                              <option key={index} value={type.nameParty}>
                                 {type.nameParty}
                               </option>
                             ))}
