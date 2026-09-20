@@ -130,7 +130,7 @@ export default function Testimonials({ data }: { data: any }) {
                 href={data.linkForGoogle}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 px-8 py-4 border border-[#C5A059] text-[#C5A059] hover:bg-[#C5A059] hover:text-black transition-all duration-300 rounded-sm font-sans text-xs font-bold tracking-[0.15em] uppercase group"
+                className="inline-flex items-center gap-3 px-8 py-4 border border-[#C5A059] text-[#C5A059] hover:bg-[#C5A059] hover:text-black transition-all duration-300 rounded-sm font-sans text-[10px] md:text-xs font-bold tracking-[0.15em] uppercase group"
               >
                 <span>Zobacz wszystkie opinie na Google</span>
                 <MdStar

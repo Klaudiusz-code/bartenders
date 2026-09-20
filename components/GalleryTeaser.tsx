@@ -178,7 +178,7 @@ export default function GallerySection({
               <div className="flex justify-center mb-12 anim-observer">
                 <Link
                   href="/realizacje"
-                  className="group inline-flex items-center gap-3 bg-black text-white px-8 py-3 rounded-md text-xs font-bold tracking-[0.15em] uppercase hover:bg-[#C5A059] hover:text-black transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-1"
+                  className="group inline-flex items-center gap-3 bg-black text-white px-4 py-3 sm:px-8 rounded-md font-bold tracking-[0.05em] sm:tracking-[0.15em] uppercase hover:bg-[#C5A059] hover:text-black transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-1 whitespace-nowrap text-[10px] md:text-shadow-md"
                 >
                   Zobacz wszystkie realizacje
                   <MdArrowRight

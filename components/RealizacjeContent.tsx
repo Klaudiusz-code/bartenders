@@ -36,7 +36,8 @@ interface RealizacjeContentProps {
     };
     ustawieniaGlobalne?: {
       email?: string;
-      phoneNumber?: string;
+      numerTelefonuDoWojtka?: string;
+      numerTelefonuDoMichala?: string;
     };
   };
 }
@@ -52,7 +53,6 @@ export default function RealizacjeContent({ data }: RealizacjeContentProps) {
 
   const galleryData = data?.sekcjaRealizacje?.realisationGalllery || [];
 
-  // Tworzymy płaską listę obrazków z wszystkich galerii
   const galleryImages: GalleryImage[] = galleryData.flatMap((item: any) =>
     item.galleryImage.nodes.map((imgNode: any) => ({
       src: imgNode.sourceUrl,
@@ -61,7 +61,6 @@ export default function RealizacjeContent({ data }: RealizacjeContentProps) {
     })),
   );
 
-  // Obsługa klawiatury (dla lightboxa)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!selectedImage) return;
@@ -85,7 +84,6 @@ export default function RealizacjeContent({ data }: RealizacjeContentProps) {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [selectedImage, galleryImages]);
 
-  // Blokowanie scrollu gdy otwarte jest zdjęcie
   useEffect(() => {
     if (selectedImage) {
       document.body.style.overflow = "hidden";
@@ -119,7 +117,6 @@ export default function RealizacjeContent({ data }: RealizacjeContentProps) {
 
   return (
     <>
-      {/* --- HERO SECTION --- */}
       <section className="relative pt-[72px] md:pt-[112px] bg-[#050505]">
         <div className="relative h-[60vh] md:h-[70vh] min-h-[450px]">
           <img
@@ -146,7 +143,6 @@ export default function RealizacjeContent({ data }: RealizacjeContentProps) {
         </div>
       </section>
 
-      {/* --- GALLERY SECTION (Dark) --- */}
       <section className="py-12 md:py-20 px-6 md:px-12 xl:px-24 bg-[#050505]">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
@@ -188,18 +184,42 @@ export default function RealizacjeContent({ data }: RealizacjeContentProps) {
               "Skontaktuj się z nami, aby omówić szczegóły Twojego wydarzenia."}
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <a
-              href={`tel:${contactInfo?.phoneNumber || "+48000000000"}`}
-              className="inline-flex items-center justify-center gap-3 w-full sm:w-auto px-6 py-3 bg-[#C5A059] text-white font-poppins text-xs font-bold tracking-[0.15em] uppercase rounded-full hover:bg-[#b08d4a] transition-colors duration-300 shadow-lg"
-            >
-              <MdPhone size={20} />
-              <span>{contactInfo?.phoneNumber || "Zadzwoń"}</span>
-            </a>
+          <div className="flex flex-col items-center gap-6 w-full max-w-lg mx-auto">
+            <div className="grid grid-cols-2 w-full rounded-lg border border-gray-200 overflow-hidden bg-white shadow-sm">
+              <a
+                href={`tel:${contactInfo?.numerTelefonuDoWojtka || ""}`}
+                className="group flex flex-col items-center justify-center p-5 border-r border-gray-200 hover:bg-gray-50 transition-all duration-300"
+              >
+                <div className="mb-2 text-[#C5A059] group-hover:scale-110 transition-transform">
+                  <MdPhone size={20} />
+                </div>
+                <span className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">
+                  Wojtek
+                </span>
+                <span className="text-[11px] md:text-sm font-medium text-gray-900">
+                  {contactInfo?.numerTelefonuDoWojtka || "Brak numeru"}
+                </span>
+              </a>
+
+              <a
+                href={`tel:${contactInfo?.numerTelefonuDoMichala || ""}`}
+                className="group flex flex-col items-center justify-center p-5 hover:bg-gray-50 transition-all duration-300"
+              >
+                <div className="mb-2 text-[#C5A059] group-hover:scale-110 transition-transform">
+                  <MdPhone size={20} />
+                </div>
+                <span className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">
+                  Michał
+                </span>
+                <span className="text-[11px] md:text-sm font-medium text-gray-900">
+                  {contactInfo?.numerTelefonuDoMichala || "Brak numeru"}
+                </span>
+              </a>
+            </div>
 
             <a
               href={`mailto:${contactInfo?.email || "biuro@domena.pl"}`}
-              className="inline-flex items-center justify-center gap-3 w-full sm:w-auto  px-6 py-3 bg-transparent border-2 border-[#C5A059] text-[#C5A059] font-poppins text-xs font-bold tracking-[0.15em] uppercase rounded-full hover:bg-[#C5A059] hover:text-white transition-colors duration-300"
+              className="inline-flex items-center justify-center gap-3 w-full sm:w-auto px-8 py-3 bg-transparent border-2 border-[#C5A059] text-[#C5A059] font-poppins text-[11px] md:text-xs font-bold tracking-[0.15em] uppercase rounded-full hover:bg-[#C5A059] hover:text-white transition-all duration-300"
             >
               <MdEmail size={20} />
               <span>Napisz maila</span>

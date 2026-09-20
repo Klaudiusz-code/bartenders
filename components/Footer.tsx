@@ -17,7 +17,8 @@ interface FooterProps {
   settings?: {
     logo?: { node: { sourceUrl: string } };
     email?: string;
-    phoneNumber?: string;
+    numerTelefonuDoWojtka?: string;
+    numerTelefonuDoMichala?: string;
     instagram?: string;
     facebook?: string;
     tiktok?: string;
@@ -106,11 +107,22 @@ export default function Footer({ settings }: FooterProps) {
               </li>
               <li>
                 <a
-                  href={`tel:${settings?.phoneNumber || ""}`}
+                  href={`tel:${settings?.numerTelefonuDoWojtka || ""}`}
                   className="flex items-center gap-3 text-white/50 text-sm hover:text-[#C5A059] transition-colors duration-300"
                 >
                   <MdPhone size={15} className="text-[#C5A059] shrink-0" />
-                  {settings?.phoneNumber || "+48 000 000 000"}
+                  <span className="text-white/30 mr-2">Wojtek:</span>
+                  {settings?.numerTelefonuDoWojtka || "+48 000 000 000"}
+                </a>
+              </li>
+              <li>
+                <a
+                  href={`tel:${settings?.numerTelefonuDoMichala || ""}`}
+                  className="flex items-center gap-3 text-white/50 text-sm hover:text-[#C5A059] transition-colors duration-300"
+                >
+                  <MdPhone size={15} className="text-[#C5A059] shrink-0" />
+                  <span className="text-white/30 mr-2">Michał:</span>
+                  {settings?.numerTelefonuDoMichala || "+48 000 000 000"}
                 </a>
               </li>
             </ul>

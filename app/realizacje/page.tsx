@@ -40,10 +40,11 @@ query GetRealizacjePageWithSettings {
   }
 
   homePage: page(id: "/", idType: URI) {
-    ustawieniaGlobalne {
-      logo { node { sourceUrl } }
+      ustawieniaGlobalne{
+      logo{node{sourceUrl}}
       email
-      phoneNumber
+      numerTelefonuDoWojtka
+      numerTelefonuDoMichala
       instagram
       tiktok
       facebook

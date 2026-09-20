@@ -8,7 +8,8 @@ import { FaFacebook, FaInstagram, FaTiktok } from "react-icons/fa";
 interface CTASectionProps {
   data: any;
   settings?: {
-    phoneNumber?: string;
+    numerTelefonuDoWojtka?: string;
+    numerTelefonuDoMichala?: string;
     instagram?: string;
     facebook?: string;
     tiktok?: string;
@@ -59,15 +60,7 @@ export default function CTASection({ data, settings }: CTASectionProps) {
         </div>
 
         <div className="absolute inset-0 z-0 opacity-[0.05] pointer-events-none mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
-
-        <div className="absolute inset-0 z-10 bg-gradient-to-t from-black via-black/60 to-black/60" />
-        <div
-          className="absolute inset-0 z-10 pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(circle at 50% 50%, transparent 20%, rgba(0,0,0,0.8) 100%)",
-          }}
-        />
+        <div className="absolute inset-0 z-10 bg-gradient-to-t from-black via-black/70 to-black/70" />
 
         <div className="relative z-20 max-w-[1000px] mx-auto text-center px-6 h-full flex flex-col justify-center">
           <div className="anim inline-flex items-center gap-6 justify-center mb-8 opacity-90">
@@ -82,14 +75,14 @@ export default function CTASection({ data, settings }: CTASectionProps) {
             {data.titleCta}
           </h2>
 
-          <p className="anim d2 font-sans text-white/60 text-base md:text-lg leading-relaxed mb-8 max-w-2xl mx-auto font-light">
+          <p className="anim d2 font-sans text-white/60 text-base md:text-lg leading-relaxed mb-12 max-w-2xl mx-auto font-light">
             {data.descriptionCta}
           </p>
 
-          <div className="anim d3 flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
+          <div className="anim d3 flex justify-center mb-8">
             <Link
               href="/kontakt"
-              className="group relative inline-flex items-center gap-3 px-8 py-4 bg-[#C5A059] text-black font-sans text-xs font-bold tracking-[0.15em] uppercase rounded-sm hover:bg-white hover:text-black transition-all duration-500 w-full sm:w-auto justify-center overflow-hidden shadow-[0_0_30px_-5px_rgba(197,160,89,0.3)]"
+              className="group relative inline-flex items-center gap-3 px-10 py-4 bg-[#C5A059] text-black font-sans text-xs font-bold tracking-[0.2em] uppercase rounded hover:bg-white hover:text-black transition-all duration-500 justify-center overflow-hidden shadow-[0_0_40px_-10px_rgba(197,160,89,0.5)] transform hover:-translate-y-1"
             >
               <span className="relative z-10">Zarezerwuj termin</span>
               <MdArrowRight
@@ -98,16 +91,47 @@ export default function CTASection({ data, settings }: CTASectionProps) {
               />
               <div className="absolute top-0 -left-full w-full h-full bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-12 group-hover:animate-shine"></div>
             </Link>
-            <a
-              href={`tel:${settings?.phoneNumber || ""}`}
-              className="group inline-flex items-center gap-3 px-8 py-4 text-white font-sans text-xs font-bold tracking-[0.15em] uppercase rounded-sm border border-white/20 backdrop-blur-md hover:border-[#C5A059] hover:bg-white/5 hover:text-[#C5A059] transition-all duration-500 w-full sm:w-auto justify-center"
-            >
-              <MdPhone size={16} />
-              Zadzwoń teraz
-            </a>
           </div>
 
-          <div className="anim d4 flex items-center justify-center gap-8 border-t border-white/10 pt-6 mt-2 w-full">
+          <div className="anim d3 max-w-lg mx-auto w-full">
+            <p className="text-[10px] uppercase tracking-[0.2em] text-white/40 mb-4">
+              Zadzwoń bezpośrednio
+            </p>
+
+            <div className="grid grid-cols-2 rounded-lg border border-white/10 overflow-hidden backdrop-blur-md bg-white/5 shadow-2xl">
+              <a
+                href={`tel:${settings?.numerTelefonuDoWojtka || ""}`}
+                className="group relative flex flex-col items-center justify-center p-6 border-r border-white/10 hover:bg-white/10 transition-all duration-300"
+              >
+                <div className="mb-3 p-2 rounded-full bg-white/5 text-[#C5A059] group-hover:bg-[#C5A059] group-hover:text-black transition-colors duration-300">
+                  <MdPhone size={20} />
+                </div>
+                <span className="block text-xs font-bold uppercase tracking-wider text-white/60 mb-1 group-hover:text-white transition-colors">
+                  Wojtek
+                </span>
+                <span className="block text-[11px] md:text-sm font-medium text-white group-hover:text-[#C5A059] transition-colors">
+                  {settings?.numerTelefonuDoWojtka || "Brak numeru"}
+                </span>
+              </a>
+
+              <a
+                href={`tel:${settings?.numerTelefonuDoMichala || ""}`}
+                className="group relative flex flex-col items-center justify-center p-6  hover:bg-white/10 transition-all duration-300"
+              >
+                <div className="mb-3 p-2 rounded-full bg-white/5 text-[#C5A059] group-hover:bg-[#C5A059] group-hover:text-black transition-colors duration-300">
+                  <MdPhone size={20} />
+                </div>
+                <span className="block text-xs font-bold uppercase tracking-wider text-white/60 mb-1 group-hover:text-white transition-colors">
+                  Michał
+                </span>
+                <span className="block text-[11px] md:text-sm font-medium text-white group-hover:text-[#C5A059] transition-colors">
+                  {settings?.numerTelefonuDoMichala || "Brak numeru"}
+                </span>
+              </a>
+            </div>
+          </div>
+
+          <div className="anim d4 flex items-center justify-center gap-8 border-t border-white/10 pt-8 mt-12 w-full">
             {socials.map((s, i) => (
               <a
                 key={i}
@@ -116,10 +140,10 @@ export default function CTASection({ data, settings }: CTASectionProps) {
                 rel="noopener noreferrer"
                 className="group relative flex flex-col items-center gap-1"
               >
-                <div className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center group-hover:border-[#C5A059] group-hover:bg-[#C5A059]/10 transition-all duration-300">
+                <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center group-hover:border-[#C5A059] group-hover:bg-[#C5A059]/10 transition-all duration-300">
                   <s.icon
                     size={16}
-                    className="text-white/70 group-hover:text-[#C5A059] transition-colors"
+                    className="text-white/50 group-hover:text-[#C5A059] transition-colors"
                   />
                 </div>
               </a>

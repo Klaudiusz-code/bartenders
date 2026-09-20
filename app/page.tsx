@@ -18,10 +18,11 @@ query GetHomePage {
       title
       description
     }
-    ustawieniaGlobalne{
+     ustawieniaGlobalne{
       logo{node{sourceUrl}}
       email
-      phoneNumber
+      numerTelefonuDoWojtka
+      numerTelefonuDoMichala
       instagram
       tiktok
       facebook

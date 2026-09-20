@@ -6,7 +6,8 @@ import { MdPhone, MdEmail } from "react-icons/md";
 
 interface TopbarProps {
   settings?: {
-    phoneNumber?: string;
+    numerTelefonuDoWojtka?: string;
+    numerTelefonuDoMichala?: string;
     email?: string;
     instagram?: string;
     facebook?: string;
@@ -36,15 +37,33 @@ export default function Topbar({ settings }: TopbarProps) {
       }`}
     >
       <div className="max-w-[1080px] xl:max-w-[1400px] mx-auto px-6 xl:px-10 h-10 flex items-center justify-between">
-        <div className="flex items-center gap-6">
-          <a
-            href={`tel:${settings?.phoneNumber || ""}`}
-            className="flex items-center gap-2 text-white/50 hover:text-white font-poppins text-[0.65rem] tracking-wide transition-colors duration-300"
-          >
-            <MdPhone size={13} className="text-[#C5A059]" />
-            {settings?.phoneNumber || "+48 000 000 000"}
-          </a>
-          <span className="w-px h-3 bg-white/10" />
+        <div className="flex items-center gap-4 md:gap-6">
+          <div className="flex items-center gap-2 md:gap-4 border-r border-white/10 pr-4">
+            <a
+              href={`tel:${settings?.numerTelefonuDoWojtka || ""}`}
+              className="flex items-center gap-1.5 text-white/50 hover:text-white font-poppins text-[0.6rem] md:text-[0.65rem] tracking-wide transition-colors duration-300"
+            >
+              <MdPhone size={13} className="text-[#C5A059]" />
+              <span className="hidden sm:inline text-white/30 mr-1">
+                Wojtek:
+              </span>
+              {settings?.numerTelefonuDoWojtka || "Brak numeru"}
+            </a>
+
+            <span className="w-px h-3 bg-white/10 hidden sm:block" />
+
+            <a
+              href={`tel:${settings?.numerTelefonuDoMichala || ""}`}
+              className="flex items-center gap-1.5 text-white/50 hover:text-white font-poppins text-[0.6rem] md:text-[0.65rem] tracking-wide transition-colors duration-300"
+            >
+              <MdPhone size={13} className="text-[#C5A059]" />
+              <span className="hidden sm:inline text-white/30 mr-1">
+                Michał:
+              </span>
+              {settings?.numerTelefonuDoMichala || "Brak numeru"}
+            </a>
+          </div>
+
           <a
             href={`mailto:${settings?.email || ""}`}
             className="flex items-center gap-2 text-white/50 hover:text-white font-poppins text-[0.65rem] tracking-wide transition-colors duration-300"
@@ -53,6 +72,7 @@ export default function Topbar({ settings }: TopbarProps) {
             {settings?.email || "kontakt@brothersbartenders.pl"}
           </a>
         </div>
+
         <div className="flex items-center gap-4">
           {socials.map((s) => (
             <a
